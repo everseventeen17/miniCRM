@@ -6,8 +6,12 @@ $(document).ready(function () {
 
     $('#create-user-form form').submit(function (e) {
         e.preventDefault();
-
-        if ($('input[name="login"]').val().length <= 3 || !validateEmail($('input[name="login"]').val())) {
+        if ($('input[name="username"]').val().length <= 3) {
+            $('#form_text_0').addClass('input__error');
+        } else {
+            $('#form_text_0').removeClass('input__error');
+        }
+        if ($('input[name="email"]').val().length <= 3 || !validateEmail($('input[name="email"]').val())) {
             $('#form_text_1').addClass('input__error');
         } else {
             $('#form_text_1').removeClass('input__error');
@@ -31,10 +35,13 @@ $(document).ready(function () {
             data: $('#create-user-form form').serialize(),
             success: function (data) {
                 console.log(data)
-                if (data.indexOf('Формат ввода email не верен') !== -1 || data.indexOf('Пользователь с данным логином уже существует') !== -1) {
+                if (data.indexOf('Имя пользователя должно быть не меньше 3-ех символов!') !== -1) {
+                    $('#form_text_0').addClass('input__error');
+                }
+                if (data.indexOf('Формат ввода email не верен') !== -1 || data.indexOf('Пользователь с данным email уже существует!') !== -1) {
                     $('#form_text_1').addClass('input__error');
                 }
-                if (data.indexOf('Логин должен быть короче 25 символов') !== -1) {
+                if (data.indexOf('Email должен быть короче 50 символов') !== -1) {
                     $('#form_text_1').addClass('input__error');
                 }
                 if (data.indexOf('Длинна пароля должна быть не меньше 3 символов') !== -1) {
@@ -59,7 +66,7 @@ $(document).ready(function () {
             data: userId,
             success: function (data) {
                 if (data) {
-                    $(that).closest( "tr" ).remove();
+                    $(that).closest("tr").remove();
                 } else {
                     console.log('Произошла ошибка при удалении пользователя');
                 }
