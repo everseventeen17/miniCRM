@@ -82,12 +82,8 @@ class UserController
         include './app/views/users/edit.php';
     }
     public function update(){
-        echo "<pre>";
-        print_r($_POST);
-        echo "</pre>";
         $userModel = new User();
         $user = $userModel->updateUserData($_GET['id'], $_POST);
-        die();
         header('Location: /index.php?page=users');
     }
 

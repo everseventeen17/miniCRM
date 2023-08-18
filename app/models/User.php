@@ -17,11 +17,6 @@ class User
 
     public function createTable()
     {
-        $roleTableQuery = "CREATE TABLE IF NOT EXISTS `roles` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `role_name` VARCHAR(255) NOT NULL,
-    `role_description` TEXT
-    )";
         $userTableQuery = "CREATE TABLE IF NOT EXISTS `users` (
     `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `username` VARCHAR(255) NOT NULL,
@@ -36,7 +31,6 @@ class User
     FOREIGN KEY (`role`) REFERENCES `roles`(`id`)
     )";
         try {
-            $this->db->exec($roleTableQuery);
             $this->db->exec($userTableQuery);
             return true;
         } catch (PDOException $exception) {
@@ -112,11 +106,6 @@ class User
         $role = $data['role'];
         $isActive = isset($data['is_active']) ? 1: 0;
         $isAdmin = !empty($data['admin']) && $data['admin'] !== 0 ? 1 : 0;
-
-        echo "<pre>";
-        print_r($isAdmin);
-        echo "</pre>";
-
         $query = "UPDATE users SET username=?, email=?, is_admin=?, role=?, is_active=? WHERE id=?";
         try {
             $stmt = $this->db->prepare($query);

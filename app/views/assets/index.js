@@ -1,11 +1,132 @@
 $(document).ready(function () {
+    class Popup {
+        constructor(popupSelector) {
+            this._popup = document.querySelector(popupSelector); //Принимает в конструктор единственный параметр — селектор попапа.
+        }
+
+        open() {
+            this._popup.classList.add('popup_opened');
+            document.addEventListener('keydown', this._handleEscClose)
+        };
+
+        close() {
+            this._popup.classList.remove('popup_opened');
+            document.removeEventListener('keydown', this._handleEscClose);
+        };
+
+        _handleEscClose = (evt) => {
+            if (evt.key === "Escape") {
+                this.close();
+            }
+        };
+
+        setEventListeners() {
+            this._popup.addEventListener('mousedown', (evt) => {
+                if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__close-btn')) {
+                    this.close();
+                }
+            });
+        }
+    };
+
+    const validationConfig = {
+        inputSelector: '.form-control',
+        submitButtonSelector: '.btn',
+        inactiveButtonClass: 'btn-disabled',
+        inputErrorClass: 'input__error',
+        errorClass: 'span__error_visible'
+    };
+
+    class FormValidator {
+        constructor(config, formElement) {
+            this._inputSelector = config.inputSelector
+            this._submitButtonSelector = config.submitButtonSelector
+            this._inactiveButtonClass = config.inactiveButtonClass
+            this._inputErrorClass = config.inputErrorClass
+            this._errorClass = config.errorClass
+            this._formElement = formElement
+            this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+            this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
+            console.log(config)
+        }
+
+        _showInputError(inputElement, errorMessage) {
+            const errorElement = this._formElement.querySelector(`.span__error_${inputElement.name}`);
+            inputElement.classList.add(this._inputErrorClass)
+            errorElement.classList.add(this._errorClass)
+            errorElement.textContent = errorMessage
+        }
+
+        _hideInputError(inputElement) {
+            const errorElement = this._formElement.querySelector(`.span__error_${inputElement.name}`);
+            inputElement.classList.remove(this._inputErrorClass)
+            errorElement.classList.remove(this._errorClass)
+            errorElement.textContent = ''
+        }
+
+        resetValidation() {
+            this._toggleButtonState()
+            this._inputList.forEach((inputElement) => {
+                    this._hideInputError(inputElement);
+                }
+            )
+        };
+
+        _checkInputValidity(inputElement) {
+            if (!inputElement.validity.valid) {
+                this._showInputError(inputElement, inputElement.validationMessage)
+            } else
+                this._hideInputError(inputElement)
+        }
+
+        _hasInvalidInput() {
+            return this._inputList.some((inputElement) => {
+                return !inputElement.validity.valid
+            })
+        }
+
+        _toggleButtonState() {
+            if (this._hasInvalidInput()) {
+                this._disableButton()
+            } else {
+                this._buttonElement.classList.remove(this._inactiveButtonClass)
+                this._buttonElement.disabled = false
+            }
+        }
+
+        _disableButton() {
+            this._buttonElement.disabled = true;
+            this._buttonElement.classList.add(this._inactiveButtonClass);
+        };
+
+        _setEventListeners() {
+            this._toggleButtonState();
+            this._inputList.forEach((inputElement) => {
+                inputElement.addEventListener('input', () => {
+                    this._checkInputValidity(inputElement)
+                    this._toggleButtonState();
+                })
+            })
+        }
+
+        enableValidation() {
+            this._setEventListeners();
+        }
+    }
+
     function validateEmail(mail) {
         let regex = /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-0-9A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u;
         return regex.test(mail);
     }
+    const createForm = document.querySelector('.form');
+    if(typeof(createForm) != "undefined" && createForm !== null) {
+        let createFormValidator = new FormValidator(validationConfig, createForm);
+        createFormValidator.enableValidation();
+    }
 
     //создание пользователя
     $('#create-user-form form').submit(function (e) {
+
         e.preventDefault();
         if ($('input[name="username"]').val().length <= 3) {
             $('#form_text_0').addClass('input__error');
@@ -109,7 +230,7 @@ $(document).ready(function () {
     //авторизация пользователя
     $('#login-user-form form').submit(function (e) {
         e.preventDefault();
-        if ($('input[name="email"]').val().length <= 3 || !validateEmail($('input[name="email"]').val())) {
+        if ($(!validateEmail($('input[name="email"]').val()))) {
             $('#form_text_1').addClass('input__error');
         } else {
             $('#form_text_1').removeClass('input__error');
@@ -155,6 +276,61 @@ $(document).ready(function () {
                     $(that).closest("tr").remove();
                 } else {
                     console.log('Произошла ошибка при удалении пользователя');
+                }
+            }
+        })
+    });
+
+
+    //создать роль
+
+    $('#create-role-form form').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "index.php?page=roles&action=store",
+            dataType: 'text',
+            data: $('#create-role-form form').serialize(),
+            success: function (data) {
+                console.log(data)
+                if (data.indexOf('Такая роль уже существует!') !== -1) {
+                    $('#form_text_0').addClass('input__error');
+                    $('.span__error_role_name').text('Такая роль уже существует!');
+                    $('.span__error_role_name').addClass('span__error_visible');
+                } else if (data.indexOf('Имя роли обязательно!') !== -1) {
+                    $('#form_text_0').addClass('input__error');
+                    $('.span__error_role_name').text('Имя роли обязательно!');
+                    $('.span__error_role_name').addClass('span__error_visible');
+                } else if (data.indexOf('Описание роли обязательно!') !== -1) {
+                    $('#form_text_1').addClass('input__error');
+                    $('.span__error_role_description').text('Описание роли обязательно для заполнения!');
+                    $('.span__error_role_description').addClass('span__error_visible');
+                } else {
+                    $('#form_text_0').removeClass('input__error');
+                    $('#form_text_1').removeClass('input__error');
+                    let successPopup = new Popup('.popup');
+                    successPopup.open();
+                    successPopup.setEventListeners();
+                }
+            }
+        })
+    });
+
+    //удаление роли из базы данных
+    $('.js-deleteRole').click(function (e) {
+        e.preventDefault();
+        let roleId = $(this).attr('data-role-id');
+        let that = $(this);
+        $.ajax({
+            type: "POST",
+            url: `index.php?page=roles&action=delete&id=${roleId}`,
+            dataType: 'text',
+            data: roleId,
+            success: function (data) {
+                if (data) {
+                    $(that).closest("tr").remove();
+                } else {
+                    console.log('Произошла ошибка при удалении роли');
                 }
             }
         })
