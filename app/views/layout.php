@@ -19,16 +19,23 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!--                <li class="nav-item">-->
-                <!--                    <a class="nav-link active" aria-current="page" href="/">Home</a>-->
-                <!--                </li>-->
                 <li class="nav-item">
                     <a class="nav-link" href="/index.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/index.php?page=users">Users</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.php?page=register">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.php?page=login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.php?page=logout">Logout</a>
+                </li>
             </ul>
+<!--            <p class="login">--><?php //= isset($_COOKIE['user_email']) ? $_COOKIE['user_email'] : '' ?><!--</p>-->
         </div>
     </nav>
 </div>

@@ -4,6 +4,7 @@ $(document).ready(function () {
         return regex.test(mail);
     }
 
+    //создание пользователя
     $('#create-user-form form').submit(function (e) {
         e.preventDefault();
         if ($('input[name="username"]').val().length <= 3) {
@@ -54,6 +55,91 @@ $(document).ready(function () {
         })
     });
 
+    //регистрация пользователя
+    $('#register-user-form form').submit(function (e) {
+        e.preventDefault();
+        if ($('input[name="username"]').val().length <= 3) {
+            $('#form_text_0').addClass('input__error');
+        } else {
+            $('#form_text_0').removeClass('input__error');
+        }
+        if ($('input[name="email"]').val().length <= 3 || !validateEmail($('input[name="email"]').val())) {
+            $('#form_text_1').addClass('input__error');
+        } else {
+            $('#form_text_1').removeClass('input__error');
+        }
+
+        if ($('input[name="password"]').val().length < 3) {
+            $('#form_text_2').addClass('input__error');
+        } else {
+            $('#form_text_2').removeClass('input__error');
+        }
+
+        if ($('input[name="confirm_password"]').val().length < 3 || $('input[name="confirm_password"]').val() !== $('input[name="password"]').val()) {
+            $('#form_text_3').addClass('input__error');
+        } else {
+            $('#form_text_3').removeClass('input__error');
+        }
+        $.ajax({
+            type: "POST",
+            url: "index.php?page=signup&action=store",
+            dataType: 'text',
+            data: $('#register-user-form form').serialize(),
+            success: function (data) {
+                console.log(data)
+                if (data.indexOf('Имя пользователя должно быть не меньше 3-ех символов!') !== -1) {
+                    $('#form_text_0').addClass('input__error');
+                }
+                if (data.indexOf('Формат ввода email не верен') !== -1 || data.indexOf('Пользователь с данным email уже существует!') !== -1) {
+                    $('#form_text_1').addClass('input__error');
+                }
+                if (data.indexOf('Email должен быть короче 50 символов') !== -1) {
+                    $('#form_text_1').addClass('input__error');
+                }
+                if (data.indexOf('Длинна пароля должна быть не меньше 3 символов') !== -1) {
+                    $('#form_text_2').addClass('input__error');
+                }
+                if (data.indexOf('Пароли не совпадают') !== -1) {
+                    $('#form_text_3').addClass('input__error');
+                }
+            }
+        })
+    });
+
+    //авторизация пользователя
+    $('#login-user-form form').submit(function (e) {
+        e.preventDefault();
+        if ($('input[name="email"]').val().length <= 3 || !validateEmail($('input[name="email"]').val())) {
+            $('#form_text_1').addClass('input__error');
+        } else {
+            $('#form_text_1').removeClass('input__error');
+        }
+        if ($('input[name="password"]').val().length < 3) {
+            $('#form_text_2').addClass('input__error');
+        } else {
+            $('#form_text_2').removeClass('input__error');
+        }
+        $.ajax({
+            type: "POST",
+            url: "index.php?page=signin&action=auth",
+            dataType: 'text',
+            data: $('#login-user-form form').serialize(),
+            success: function (data) {
+                console.log(data)
+                if (data.indexOf('Формат ввода email не верен') !== -1 || data.indexOf('Пользователь с данным email уже существует!') !== -1) {
+                    $('#form_text_1').addClass('input__error');
+                }
+                if (data.indexOf('Email должен быть короче 50 символов') !== -1) {
+                    $('#form_text_1').addClass('input__error');
+                }
+                if (data.indexOf('Длинна пароля должна быть не меньше 3 символов') !== -1) {
+                    $('#form_text_2').addClass('input__error');
+                }
+            }
+        })
+    });
+
+    //удаление пользователя из базы данных
     $('.js-deleteUser').click(function (e) {
         e.preventDefault();
         console.log($('#deleteUser'))
