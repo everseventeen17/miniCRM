@@ -4,3 +4,27 @@
     border: 1px solid red;
 }
 
+.span__error {
+    color: #FF0000;
+    font-size: 12px;
+    line-height: 14.52px;
+    opacity: 0;
+    min-height: 15px;
+    margin: 5px 0 0 0;
+    box-sizing: border-box;
+    display: block;
+}
+
+.span__error_visible {
+    opacity: 1;
+}
+.btn-disabled {
+    opacity: 0.2;
+    background-color: transparent;
+    color: #000000;
+    border: 1px solid #000000;
+}
+
+.btn-disabled:hover {
+    background-color: transparent;
+}
