@@ -1,6 +1,6 @@
 <?php
 
-$title = 'Register User';?>
+$title = 'Register user';?>
 <?php ob_start(); ?>
 
     <h1>Registration</h1>
@@ -33,3 +33,5 @@ $title = 'Register User';?>
 
 <?php $content = ob_get_clean();
 include './app/views/layout.php';
+include './app/views/popups/success.php';
+echo $successPopup;

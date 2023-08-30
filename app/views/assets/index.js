@@ -160,21 +160,24 @@ $(document).ready(function () {
                 if (data.indexOf('Имя пользователя должно быть не меньше 3-ех символов!') !== -1) {
                     $('#form_text_0').addClass('input__error');
                 }
-                if (data.indexOf('Формат ввода email не верен') !== -1 || data.indexOf('Пользователь с данным email уже существует!') !== -1) {
+                else if (data.indexOf('Формат ввода email не верен') !== -1 || data.indexOf('Пользователь с данным email уже существует!') !== -1) {
                     $('#form_text_1').addClass('input__error');
                 }
-                if (data.indexOf('Email должен быть короче 50 символов') !== -1) {
+                else if (data.indexOf('Email должен быть короче 50 символов') !== -1) {
                     $('#form_text_1').addClass('input__error');
                 }
-                if (data.indexOf('Длинна пароля должна быть не меньше 3 символов') !== -1) {
+                else if (data.indexOf('Длинна пароля должна быть не меньше 3 символов') !== -1) {
                     $('#form_text_2').addClass('input__error');
                 }
-                if (data.indexOf('Пароли не совпадают') !== -1) {
+                else if (data.indexOf('Пароли не совпадают') !== -1) {
                     $('#form_text_3').addClass('input__error');
+                    return;
+                }else{
+                    let successPopup = new Popup('.popup');
+                    successPopup.open();
+                    successPopup.setEventListeners();
                 }
-                let successPopup = new Popup('.popup');
-                successPopup.open();
-                successPopup.setEventListeners();
+
             }
         })
     });
@@ -214,7 +217,7 @@ $(document).ready(function () {
                 if (data.indexOf('Имя пользователя должно быть не меньше 3-ех символов!') !== -1) {
                     $('#form_text_0').addClass('input__error');
                 }
-                if (data.indexOf('Формат ввода email не верен') !== -1 || data.indexOf('Пользователь с данным email уже существует!') !== -1) {
+                if (data.indexOf('Формат ввода email не верен') !== -1) {
                     $('#form_text_1').addClass('input__error');
                 }
                 if (data.indexOf('Email должен быть короче 50 символов') !== -1) {
@@ -226,6 +229,15 @@ $(document).ready(function () {
                 if (data.indexOf('Пароли не совпадают') !== -1) {
                     $('#form_text_3').addClass('input__error');
                 }
+                if (data.indexOf('Пользователь с данным email уже существует!') !== -1) {
+                    $('#form_text_1').addClass('input__error');
+                    $('.span__error_email').text('Пользователь с данным email уже существует!');
+                    $('.span__error_email').addClass('span__error_visible');
+                    return;
+                }
+                let successPopup = new Popup('.popup');
+                successPopup.open();
+                successPopup.setEventListeners();
             }
         })
     });
@@ -234,9 +246,9 @@ $(document).ready(function () {
     $('#login-user-form form').submit(function (e) {
         e.preventDefault();
         if ($(!validateEmail($('input[name="email"]').val()))) {
-            $('#form_text_1').addClass('input__error');
-        } else {
             $('#form_text_1').removeClass('input__error');
+        } else {
+            $('#form_text_1').addClass('input__error');
         }
         if ($('input[name="password"]').val().length < 3) {
             $('#form_text_2').addClass('input__error');
@@ -250,15 +262,16 @@ $(document).ready(function () {
             data: $('#login-user-form form').serialize(),
             success: function (data) {
                 console.log(data)
-                if (data.indexOf('Формат ввода email не верен') !== -1 || data.indexOf('Пользователь с данным email уже существует!') !== -1) {
+                if (data.indexOf('Invalid email or password') !== -1) {
                     $('#form_text_1').addClass('input__error');
-                }
-                if (data.indexOf('Email должен быть короче 50 символов') !== -1) {
-                    $('#form_text_1').addClass('input__error');
-                }
-                if (data.indexOf('Длинна пароля должна быть не меньше 3 символов') !== -1) {
                     $('#form_text_2').addClass('input__error');
+                    $('.span__error_email').text('Invalid email or password!');
+                    $('.span__error_email').addClass('span__error_visible');
+                    return;
                 }
+                let successPopup = new Popup('.popup');
+                successPopup.open();
+                successPopup.setEventListeners();
             }
         })
     });
