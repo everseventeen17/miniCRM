@@ -1,6 +1,6 @@
 <?php
 
-$title = 'User list';?>
+$title = 'UserModel list';?>
 <?php ob_start(); ?>
 
 <h1> User list </h1>

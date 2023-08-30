@@ -1,12 +1,12 @@
 <?php
-require_once './app/models/User.php';
+require_once './app/models/UserModel.php';
 
 class UserController
 {
 
     public function index()
     {
-        $userModel = new User();
+        $userModel = new UserModel();
         $users = $userModel->getAllUsers();
         include './app/views/users/index.php';
     }
@@ -18,7 +18,7 @@ class UserController
 
     public function store()
     {
-        $userModel = new User();
+        $userModel = new UserModel();
         $users = $userModel->getAllUsers();
 
         if (isset($_POST['username']) and isset($_POST['email']) and isset($_POST['password']) and isset($_POST['confirm_password'])) {
@@ -58,7 +58,7 @@ class UserController
                     'password'=> $_POST['password'],
                     'role'=> 1,
                 ];
-                $userModel = new User();
+                $userModel = new UserModel();
                 $userModel->createUser($data);
             }
         }
@@ -66,7 +66,7 @@ class UserController
 
     public function delete()
     {
-        $userModel = new User();
+        $userModel = new UserModel();
         if ($userModel->deleteUser($_GET['id'])) {
             echo 1;
             return;
@@ -77,12 +77,12 @@ class UserController
     }
 
     public function edit(){
-        $userModel = new User();
+        $userModel = new UserModel();
         $user = $userModel->getUserById($_GET['id']);
         include './app/views/users/edit.php';
     }
     public function update(){
-        $userModel = new User();
+        $userModel = new UserModel();
         $user = $userModel->updateUserData($_GET['id'], $_POST);
         header('Location: /index.php?page=users');
     }

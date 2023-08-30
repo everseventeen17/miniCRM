@@ -1,6 +1,6 @@
 <?php
 
-class Role
+class RoleModel
 {
     private $db;
 

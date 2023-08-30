@@ -1,5 +1,5 @@
 <?php
-$title = 'Edit Role';?>
+$title = 'Edit RoleModel';?>
 <?php ob_start(); ?>
 
 

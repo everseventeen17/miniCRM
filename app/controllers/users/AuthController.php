@@ -1,6 +1,6 @@
 <?php
 
-require_once 'app/models/AuthUser.php';
+require_once 'app/models/AuthUserModel.php';
 
 class AuthController
 {
@@ -11,7 +11,7 @@ class AuthController
 
     public function store()
     {
-        $userModel = new User();
+        $userModel = new UserModel();
         $users = $userModel->getAllUsers();
         if (isset($_POST['username']) and isset($_POST['email']) and isset($_POST['password']) and isset($_POST['confirm_password'])) {
             $password = $_POST['password'];
@@ -49,7 +49,7 @@ class AuthController
                     'password' => $_POST['password'],
                     'role' => 1,
                 ];
-                $userModel = new User();
+                $userModel = new UserModel();
                 $userModel->createUser($data);
             }
         }
@@ -62,7 +62,7 @@ class AuthController
 
     public function auth()
     {
-        $authModel = new AuthUser;
+        $authModel = new AuthUserModel;
         if (isset($_POST['email']) and isset($_POST['password'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];

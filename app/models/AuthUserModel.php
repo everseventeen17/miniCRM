@@ -1,6 +1,6 @@
 <?php
 
-class User
+class AuthUserModel
 {
     private $db;
 
@@ -9,7 +9,7 @@ class User
         $this->db = Database::getInstance()->getConnection();
         try {
             $this->db->query("SELECT 1 FROM `roles` LIMIT 1");
-             $this->db->query("SELECT 1 FROM `users` LIMIT 1");
+            $this->db->query("SELECT 1 FROM `users` LIMIT 1");
         } catch (PDOException $exception) {
             $this->createTable();
         }
@@ -17,6 +17,11 @@ class User
 
     public function createTable()
     {
+        $roleTableQuery = "CREATE TABLE IF NOT EXISTS `roles` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `role_name` VARCHAR(255) NOT NULL,
+    `role_description` TEXT
+    )";
         $userTableQuery = "CREATE TABLE IF NOT EXISTS `users` (
     `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `username` VARCHAR(255) NOT NULL,
@@ -31,6 +36,7 @@ class User
     FOREIGN KEY (`role`) REFERENCES `roles`(`id`)
     )";
         try {
+            $this->db->exec($roleTableQuery);
             $this->db->exec($userTableQuery);
             return true;
         } catch (PDOException $exception) {
@@ -39,15 +45,13 @@ class User
     }
 
 
-    public function getAllUsers()
+    public function registerUser($username, $email, $password)
     {
+        $created_at = date('Y-m-d H:i:s');
+        $query = "INSERT INTO users (username, email, password, created_at) VALUES (?,?,?,?)";
         try {
-            $stmt = $this->db->query("SELECT * FROM users");
-            $users = [];
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $users[] = $row;
-            }
-            return $users;
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$username, $email, password_hash($password, PASSWORD_DEFAULT), $created_at]);
         } catch (PDOException $exception) {
             echo "<pre>";
             print_r($exception->getMessage());
@@ -56,31 +60,31 @@ class User
         }
     }
 
-    public function createUser($data)
+    public function loginUser ($email, $password)
     {
-        $username = $data['username'];
-        $email = $data['email'];
-        $password = password_hash($data['password'], PASSWORD_DEFAULT);
-        $role = $data['role'];
-        $created_at = date('Y-m-d H:i:s');
-
-        $query = "INSERT INTO users (username, email, password, role, created_at) VALUE (?,?,?,?,?)";
         try {
+            $query = "SELECT FROM users WHERE email = ? LIMIT 1";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$username, $email, $password, $role, $created_at]);
-            return true;
+            $stmt->execute([$email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user and password_verify($password, $user['password'])) {
+                return $user;
+            }else{
+                return false;
+            }
         } catch (PDOException $exception) {
             return false;
         }
     }
 
-    public function deleteUser($id)
+    public function findByEmail($email)
     {
-        $query = "DELETE FROM users WHERE id = ?";
         try {
+            $query = "SELECT * FROM users WHERE email = ? LIMIT 1";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$id]);
-            return true;
+            $stmt->execute([$email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $user ? $user : false;
         } catch (PDOException $exception) {
             return false;
         }
@@ -104,8 +108,13 @@ class User
         $username = $data['username'];
         $email = $data['email'];
         $role = $data['role'];
-        $isActive = isset($data['is_active']) ? 1: 0;
+        $isActive = isset($data['is_active']) ? 1 : 0;
         $isAdmin = !empty($data['admin']) && $data['admin'] !== 0 ? 1 : 0;
+
+        echo "<pre>";
+        print_r($isAdmin);
+        echo "</pre>";
+
         $query = "UPDATE users SET username=?, email=?, is_admin=?, role=?, is_active=? WHERE id=?";
         try {
             $stmt = $this->db->prepare($query);
@@ -118,5 +127,4 @@ class User
             return false;
         }
     }
-
 }

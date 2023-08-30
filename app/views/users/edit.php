@@ -1,5 +1,5 @@
 <?php
-$title = 'Edit User';?>
+$title = 'Edit UserModel';?>
 <?php ob_start(); ?>
 
 

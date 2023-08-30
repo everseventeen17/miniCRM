@@ -1,11 +1,11 @@
 <?php
-require_once 'app/models/roles/Role.php';
+require_once 'app/models/roles/RoleModel.php';
 
 class RoleController
 {
     public function index()
     {
-        $roleModel = new Role();
+        $roleModel = new RoleModel();
         $roles = $roleModel->getAllRoles();
         include './app/views/roles/index.php';
     }
@@ -17,7 +17,7 @@ class RoleController
 
     public function store()
     {
-        $roleModel = new Role();
+        $roleModel = new RoleModel();
         $roles = $roleModel->getAllRoles();
         if (isset($_POST['role_name']) and isset($_POST['role_description'])) {
             $roleName = trim($_POST['role_name']);
@@ -49,7 +49,7 @@ class RoleController
 
     public function delete()
     {
-        $roleModel = new Role();
+        $roleModel = new RoleModel();
         if ($roleModel->deleteRole($_GET['id'])) {
             echo 1;
             return;
@@ -61,10 +61,10 @@ class RoleController
 
     public function edit()
     {
-        $roleModel = new Role();
+        $roleModel = new RoleModel();
         $role = $roleModel->getRoleById($_GET['id']);
         if (!$role) {
-            echo "Role not fount";
+            echo "RoleModel not fount";
             return;
         }
         include './app/views/roles/edit.php';
@@ -72,17 +72,17 @@ class RoleController
 
     public function update()
     {
-        $roleModel = new Role();
+        $roleModel = new RoleModel();
         if (isset($_POST['role_name']) and isset($_POST['role_description']) and isset($_POST['id'])) {
             $roleName = trim($_POST['role_name']);
             $roleDescription = trim($_POST['role_description']);
             $id = $_POST['id'];
             $errors = [];
             if (empty($roleName)) {
-                $errors[] = "Role name is required";
+                $errors[] = "RoleModel name is required";
             }
             if (empty($roleDescription)) {
-                $errors[] = "Role description is required";
+                $errors[] = "RoleModel description is required";
             }
             if (empty($id)) {
                 $errors[] = "You may choose role";

@@ -3,9 +3,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once('./app/models/Database.php');
-require_once('./app/models/User.php');
-require_once('./app/models/AuthUser.php');
-require_once('./app/models/roles/Role.php');
+require_once('./app/models/UserModel.php');
+require_once('./app/models/AuthUserModel.php');
+require_once('./app/models/roles/RoleModel.php');
 
 require_once('./app/controllers/users/UserController.php');
 require_once('./app/controllers/users/AuthController.php');
