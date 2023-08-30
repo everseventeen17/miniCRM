@@ -31,6 +31,9 @@
                         <a class="nav-link" href="/index.php?page=roles">Roles</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/index.php?page=pages">Pages</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/index.php?page=register">Register</a>
                     </li>
                     <li class="nav-item">

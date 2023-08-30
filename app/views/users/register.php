@@ -25,7 +25,7 @@ $title = 'Register user';?>
                 <input name="confirm_password" type="password" class="form-control" id="form_text_3" placeholder="Password" required minlength="2" maxlength="30">
                 <span class="span__error span__error_confirm_password">1</span>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Register</button>
+            <button type="submit" class="btn submit-btn btn-primary mt-3">Register</button>
            <span class="ms-3 mt-3 align-middle">Already have an account? You may <a class="" href="/index.php?page=login">Login</a></span>
         </form>
     </div>

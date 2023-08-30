@@ -25,7 +25,7 @@ $title = 'Edit UserModel';?>
                 <option value="0" <?=$user['role'] === 3 ? 'selected' : '' ?>>Admin</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        <button type="submit" class="btn submit-btn btn-primary mt-3">Submit</button>
     </form>
 </div>
 

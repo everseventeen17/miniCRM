@@ -28,7 +28,7 @@ $title = 'Create user';?>
             <input name="confirm_password" type="password" class="form-control" id="form_text_3" placeholder="Password" required minlength="2">
             <span class="span__error span__error_confirm_password">1</span>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        <button type="submit" class="btn submit-btn btn-primary mt-3">Submit</button>
     </form>
 </div>
 

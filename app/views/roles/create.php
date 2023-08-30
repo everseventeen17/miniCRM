@@ -19,7 +19,7 @@ $title = 'Create role';
             <textarea  class="form-control" id="form_text_1" rows="10" name="role_description" required minlength="2" maxlength="30"></textarea>
             <span class="span__error span__error_role_description">1</span>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Create role</button>
+        <button type="submit" class="btn submit-btn btn-primary mt-3">Create role</button>
     </form>
 </div>
 

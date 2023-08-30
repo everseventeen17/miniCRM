@@ -22,7 +22,7 @@ $title = 'Login';?>
                     Remember me
                 </label>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Login</button>
+            <button type="submit" class="btn submit-btn btn-primary mt-3">Login</button>
            <span class="ms-3 mt-3 align-middle">Didn't have an account? You may <a class="" href="/index.php?page=register">Register</a></span>
         </form>
     </div>

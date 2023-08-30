@@ -31,7 +31,7 @@ $(document).ready(function () {
 
     const validationConfig = {
         inputSelector: '.form-control',
-        submitButtonSelector: '.btn',
+        submitButtonSelector: '.submit-btn',
         inactiveButtonClass: 'btn-disabled',
         inputErrorClass: 'input__error',
         errorClass: 'span__error_visible'
@@ -298,7 +298,6 @@ $(document).ready(function () {
 
 
     //создать роль
-
     $('#create-role-form form').submit(function (e) {
         e.preventDefault();
         $.ajax({
@@ -329,6 +328,39 @@ $(document).ready(function () {
                 }
             }
         })
+    })
+
+    //создать сртаницу
+    $('#create-page-form form').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "index.php?page=pages&action=store",
+            dataType: 'text',
+            data: $('#create-page-form form').serialize(),
+            success: function (data) {
+                console.log(data)
+                if (data.indexOf('Такая страница уже существует!') !== -1) {
+                    $('#form_text_0').addClass('input__error');
+                    $('.span__error_page_name').text('Такая страница уже существует!');
+                    $('.span__error_page_name').addClass('span__error_visible');
+                } else if (data.indexOf('Имя страницы обязательно!') !== -1) {
+                    $('#form_text_0').addClass('input__error');
+                    $('.span__error_page_name').text('Имя страницы обязательно!');
+                    $('.span__error_page_name').addClass('span__error_visible');
+                } else if (data.indexOf('Ссылка на страницу обязательна!') !== -1) {
+                    $('#form_text_1').addClass('input__error');
+                    $('.span__error_page_url').text('Ссылка на страницу обязательна!');
+                    $('.span__error_page_url').addClass('span__error_visible');
+                } else {
+                    $('#form_text_0').removeClass('input__error');
+                    $('#form_text_1').removeClass('input__error');
+                    let successPopup = new Popup('.popup');
+                    successPopup.open();
+                    successPopup.setEventListeners();
+                }
+            }
+        })
     });
 
     //удаление роли из базы данных
@@ -350,4 +382,25 @@ $(document).ready(function () {
             }
         })
     });
+
+    //удаление страницы из базы данных
+    $('.js-deletePage').click(function (e) {
+        e.preventDefault();
+        let pageId = $(this).attr('data-page-id');
+        let that = $(this);
+        $.ajax({
+            type: "POST",
+            url: `index.php?page=pages&action=delete&id=${pageId}`,
+            dataType: 'text',
+            data: pageId,
+            success: function (data) {
+                if (data) {
+                    $(that).closest("tr").remove();
+                } else {
+                    console.log('Произошла ошибка при удалении страницы');
+                }
+            }
+        })
+    });
+
 });
