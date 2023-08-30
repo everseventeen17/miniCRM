@@ -47,7 +47,6 @@ $(document).ready(function () {
             this._formElement = formElement
             this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
             this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
-            console.log(config)
         }
 
         _showInputError(inputElement, errorMessage) {

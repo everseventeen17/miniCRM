@@ -2,10 +2,9 @@
 
 $title = 'Register user';?>
 <?php ob_start(); ?>
-
-    <h1>Registration</h1>
     <div class="container" id="register-user-form">
         <form method="POST" action="" class="form">
+            <h1>Registration</h1>
             <div class="form-group mt-1">
                 <label for="exampleInputEmail1">Username</label>
                 <input  class="form-control" id="form_text_0" name="username" placeholder="Enter name" required minlength="2" maxlength="30">

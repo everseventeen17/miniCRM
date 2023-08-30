@@ -3,9 +3,9 @@
 $title = 'Login';?>
 <?php ob_start(); ?>
 
-    <h1>Login</h1>
     <div class="container" id="login-user-form">
         <form method="POST" action="" class="form">
+            <h1>Login</h1>
             <div class="form-group mt-1">
                 <label for="exampleInputEmail1">Email address</label>
                 <input  class="form-control" id="form_text_1" name="email" type="email" aria-describedby="emailHelp" placeholder="Enter email" required minlength="2" maxlength="30">
