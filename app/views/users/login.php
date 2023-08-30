@@ -5,15 +5,16 @@ $title = 'Login';?>
 
     <h1>Login</h1>
     <div class="container" id="login-user-form">
-        <form method="POST" action="">
+        <form method="POST" action="" class="form">
             <div class="form-group mt-1">
                 <label for="exampleInputEmail1">Email address</label>
-                <input  class="form-control" id="form_text_1" name="email" aria-describedby="emailHelp" placeholder="Enter email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                <input  class="form-control" id="form_text_1" name="email" type="email" aria-describedby="emailHelp" placeholder="Enter email" required minlength="2" maxlength="30">
+                <span class="span__error span__error_email">1</span>
             </div>
             <div class="form-group mt-1">
                 <label for="exampleInputPassword1">Password</label>
-                <input name="password" type="password" class="form-control" id="form_text_2" placeholder="Password">
+                <input name="password" type="password" class="form-control" id="form_text_2" placeholder="Password" required minlength="2" maxlength="30">
+                <span class="span__error span__error_password">1</span>
             </div>
             <div class="form-check mt-3">
                 <input class="form-check-input" name="remember_me" type="checkbox" checked value="0" id="form_checkbox">

@@ -1,6 +1,7 @@
 <?php
 
-$title = 'Create role';?>
+$title = 'Create role';
+?>
 <?php ob_start(); ?>
 
 <h1>Create Role </h1>

@@ -172,6 +172,9 @@ $(document).ready(function () {
                 if (data.indexOf('Пароли не совпадают') !== -1) {
                     $('#form_text_3').addClass('input__error');
                 }
+                let successPopup = new Popup('.popup');
+                successPopup.open();
+                successPopup.setEventListeners();
             }
         })
     });

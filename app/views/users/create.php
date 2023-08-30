@@ -1,6 +1,6 @@
 <?php
 
-$title = 'Create User';?>
+$title = 'Create user';?>
 <?php ob_start(); ?>
 
 <h1>Create User </h1>
@@ -34,3 +34,5 @@ $title = 'Create User';?>
 
 <?php $content = ob_get_clean();
 include './app/views/layout.php';
+include './app/views/popups/success.php';
+echo $successPopup;
