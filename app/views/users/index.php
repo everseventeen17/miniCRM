@@ -33,7 +33,7 @@ $title = 'UserModel list';?>
                 <td><?php echo $user['last_login'] ?></td>
                 <td>
                     <a href='index.php?page=users&action=edit&id=<?php echo $user["id"]; ?>' class="btn btn-primary" >Edit</a>
-                    <a href='index.php?page=users&action=delete&id=<?php echo $user["id"]; ?>' class="js-deleteUser btn btn-danger" data-user-id="<?=$user['id']?>">Delete</a>
+                    <button class="js-deleteUser btn btn-danger" data-user-id="<?=$user['id']?>">Delete</button>
                 </td>
             </tr>
         <?php endforeach; ?>

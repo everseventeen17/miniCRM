@@ -24,8 +24,11 @@ class PageController
             $pageUrl = trim($_POST['page_url']);
             $errors = [];
             foreach ($pages as $page) {
-                if ($page['page_url'] === $pageName) {
+                if ($page['page_name'] === $pageName) {
                     $errors[] = 'Такая страница уже существует!';
+                }
+                if ($page['page_url'] === $pageUrl) {
+                    $errors[] = 'Такой url уже существует!';
                 }
             }
             if (strlen($pageName) <= 0) {

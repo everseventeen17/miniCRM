@@ -22,7 +22,7 @@ $title = 'Pages Page';?>
                     <td><?php echo $page['page_url']?></td>
                     <td>
                         <a href='index.php?page=pages&action=edit&id=<?php echo $page["id"]; ?>' class="btn btn-primary" >Edit</a>
-                        <a href='index.php?page=pages&action=delete&id=<?php echo $page["id"]; ?>' class="js-deletePage btn btn-danger" data-page-id="<?=$page['id']?>">Delete</a>
+                        <button class="js-deletePage btn btn-danger" data-page-id="<?=$page['id']?>">Delete</button>
                     </td>
                 </tr>
             <?php endforeach; ?>

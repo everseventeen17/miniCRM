@@ -113,12 +113,56 @@ $(document).ready(function () {
         }
     }
 
+    class deleteButton {
+        constructor(buttonSelector, ajaxUrl, dataId) {
+            this._ajaxUrl = ajaxUrl;
+            this._dataId = dataId;
+            this._buttonList = Array.from(document.querySelectorAll(buttonSelector));
+        }
+
+        setEventListeners() {
+            this._buttonList.forEach((buttonElement) => {
+                buttonElement.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    let pageId = buttonElement.getAttribute(this._dataId);
+                    let that = buttonElement;
+                    buttonElement.setAttribute('disabled', true);
+                    $.ajax({
+                        type: "POST",
+                        url: `index.php?page=${this._ajaxUrl}&action=delete&id=${pageId}`,
+                        dataType: 'text',
+                        data: pageId,
+                        success: function (data) {
+                            if (data) {
+                                $(that).closest("tr").remove();
+                                that.setAttribute('disabled', false);
+                            } else {
+                                console.log('Произошла ошибка при удалении');
+                            }
+                        }
+                    })
+                })
+            })
+        }
+    }
+
+    //удаление страницы из базы данных
+    let pageDeleteButton = new deleteButton('.js-deletePage', 'pages', 'data-page-id');
+    pageDeleteButton.setEventListeners();
+    //удаление ользователя из базы данных
+    let userDeleteButton = new deleteButton('.js-deleteUser', 'users', 'data-user-id');
+    userDeleteButton.setEventListeners();
+    //удаление роли из базы данных
+    let roleDeleteButton = new deleteButton('.js-deleteRole', 'roles', 'data-role-id');
+    roleDeleteButton.setEventListeners();
+
     function validateEmail(mail) {
         let regex = /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-0-9A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u;
         return regex.test(mail);
     }
+
     const createForm = document.querySelector('.form');
-    if(typeof(createForm) != "undefined" && createForm !== null) {
+    if (typeof (createForm) != "undefined" && createForm !== null) {
         let createFormValidator = new FormValidator(validationConfig, createForm);
         createFormValidator.enableValidation();
     }
@@ -158,20 +202,16 @@ $(document).ready(function () {
                 console.log(data)
                 if (data.indexOf('Имя пользователя должно быть не меньше 3-ех символов!') !== -1) {
                     $('#form_text_0').addClass('input__error');
-                }
-                else if (data.indexOf('Формат ввода email не верен') !== -1 || data.indexOf('Пользователь с данным email уже существует!') !== -1) {
+                } else if (data.indexOf('Формат ввода email не верен') !== -1 || data.indexOf('Пользователь с данным email уже существует!') !== -1) {
                     $('#form_text_1').addClass('input__error');
-                }
-                else if (data.indexOf('Email должен быть короче 50 символов') !== -1) {
+                } else if (data.indexOf('Email должен быть короче 50 символов') !== -1) {
                     $('#form_text_1').addClass('input__error');
-                }
-                else if (data.indexOf('Длинна пароля должна быть не меньше 3 символов') !== -1) {
+                } else if (data.indexOf('Длинна пароля должна быть не меньше 3 символов') !== -1) {
                     $('#form_text_2').addClass('input__error');
-                }
-                else if (data.indexOf('Пароли не совпадают') !== -1) {
+                } else if (data.indexOf('Пароли не совпадают') !== -1) {
                     $('#form_text_3').addClass('input__error');
                     return;
-                }else{
+                } else {
                     let successPopup = new Popup('.popup');
                     successPopup.open();
                     successPopup.setEventListeners();
@@ -275,28 +315,6 @@ $(document).ready(function () {
         })
     });
 
-    //удаление пользователя из базы данных
-    $('.js-deleteUser').click(function (e) {
-        e.preventDefault();
-        console.log($('#deleteUser'))
-        let userId = $(this).attr('data-user-id');
-        let that = $(this);
-        $.ajax({
-            type: "POST",
-            url: `index.php?page=users&action=delete&id=${userId}`,
-            dataType: 'text',
-            data: userId,
-            success: function (data) {
-                if (data) {
-                    $(that).closest("tr").remove();
-                } else {
-                    console.log('Произошла ошибка при удалении пользователя');
-                }
-            }
-        })
-    });
-
-
     //создать роль
     $('#create-role-form form').submit(function (e) {
         e.preventDefault();
@@ -333,6 +351,8 @@ $(document).ready(function () {
     //создать сртаницу
     $('#create-page-form form').submit(function (e) {
         e.preventDefault();
+        $(this).find('button').attr('disabled', true);
+        let that = $(this);
         $.ajax({
             type: "POST",
             url: "index.php?page=pages&action=store",
@@ -340,6 +360,7 @@ $(document).ready(function () {
             data: $('#create-page-form form').serialize(),
             success: function (data) {
                 console.log(data)
+                $(that).find('button').attr('disabled', false);
                 if (data.indexOf('Такая страница уже существует!') !== -1) {
                     $('#form_text_0').addClass('input__error');
                     $('.span__error_page_name').text('Такая страница уже существует!');
@@ -352,52 +373,16 @@ $(document).ready(function () {
                     $('#form_text_1').addClass('input__error');
                     $('.span__error_page_url').text('Ссылка на страницу обязательна!');
                     $('.span__error_page_url').addClass('span__error_visible');
+                } else if (data.indexOf('Такой url уже существует!') !== -1) {
+                    $('#form_text_1').addClass('input__error');
+                    $('.span__error_page_url').text('Такой url уже существует!');
+                    $('.span__error_page_url').addClass('span__error_visible');
                 } else {
                     $('#form_text_0').removeClass('input__error');
                     $('#form_text_1').removeClass('input__error');
                     let successPopup = new Popup('.popup');
                     successPopup.open();
                     successPopup.setEventListeners();
-                }
-            }
-        })
-    });
-
-    //удаление роли из базы данных
-    $('.js-deleteRole').click(function (e) {
-        e.preventDefault();
-        let roleId = $(this).attr('data-role-id');
-        let that = $(this);
-        $.ajax({
-            type: "POST",
-            url: `index.php?page=roles&action=delete&id=${roleId}`,
-            dataType: 'text',
-            data: roleId,
-            success: function (data) {
-                if (data) {
-                    $(that).closest("tr").remove();
-                } else {
-                    console.log('Произошла ошибка при удалении роли');
-                }
-            }
-        })
-    });
-
-    //удаление страницы из базы данных
-    $('.js-deletePage').click(function (e) {
-        e.preventDefault();
-        let pageId = $(this).attr('data-page-id');
-        let that = $(this);
-        $.ajax({
-            type: "POST",
-            url: `index.php?page=pages&action=delete&id=${pageId}`,
-            dataType: 'text',
-            data: pageId,
-            success: function (data) {
-                if (data) {
-                    $(that).closest("tr").remove();
-                } else {
-                    console.log('Произошла ошибка при удалении страницы');
                 }
             }
         })

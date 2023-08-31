@@ -27,7 +27,7 @@ $title = 'Roles Page';?>
                     <td><?php echo $role['role_description']?></td>
                     <td>
                         <a href='index.php?page=roles&action=edit&id=<?php echo $role["id"]; ?>' class="btn btn-primary" >Edit</a>
-                        <a href='index.php?page=roles&action=delete&id=<?php echo $role["id"]; ?>' class="js-deleteRole btn btn-danger" data-role-id="<?=$role['id']?>">Delete</a>
+                        <button class="js-deleteRole btn btn-danger" data-role-id="<?=$role['id']?>">Delete</button>
                     </td>
                 </tr>
             <?php endforeach; ?>
