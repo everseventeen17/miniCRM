@@ -22,29 +22,26 @@ class PageController
         if (isset($_POST['page_name']) and isset($_POST['page_url'])) {
             $pageName = trim($_POST['page_name']);
             $pageUrl = trim($_POST['page_url']);
-            $errors = [];
+            $errors = [0=>[], 1=>[]];
             foreach ($pages as $page) {
                 if ($page['page_name'] === $pageName) {
-                    $errors[] = 'Такая страница уже существует!';
+                    $errors[0]['page_name'] = 'Такая страница уже существует!';
                 }
                 if ($page['page_url'] === $pageUrl) {
-                    $errors[] = 'Такой url уже существует!';
+                    $errors[1]['page_url'] = 'Такой url уже существует!';
                 }
             }
             if (strlen($pageName) <= 0) {
-                $errors[] = 'Имя страницы обязательно!';
+                $errors[0]['page_name'] = 'Имя страницы обязательно!';
             }
             if (strlen($pageUrl) <= 0) {
-                $errors[] = 'Ссылка на страницу обязательна!';
+                $errors[1]['page_url'] = 'Ссылка на страницу обязательна!';
             }
 
-            if (count($errors) !== 0) {
-                echo "<pre>";
-                print_r($errors);
-                echo "</pre>";
-                return;
+            if (!empty($errors[0]) or !empty($errors[1])) {
+                print_r(json_encode($errors));
             } else {
-                echo 'ok';
+                print_r(json_encode('ok'));
                 $pageModel->createPage($pageName, $pageUrl);
             }
         }

@@ -22,26 +22,22 @@ class RoleController
         if (isset($_POST['role_name']) and isset($_POST['role_description'])) {
             $roleName = trim($_POST['role_name']);
             $roleDescription = trim($_POST['role_description']);
-            $errors = [];
+            $errors = [0=>[],1=>[]];
             foreach ($roles as $role) {
                 if ($role['role_name'] === $roleName) {
-                    $errors[] = 'Такая роль уже существует!';
+                    $errors[0]['role_name'] = 'Такая роль уже существует!';
                 }
             }
             if (strlen($roleName) <= 0) {
-                $errors[] = 'Имя роли обязательно!';
+                $errors[0]['role_name'] = 'Имя роли обязательно!';
             }
             if (strlen($roleDescription) <= 0) {
-                $errors[] = 'Описание роли обязательно!';
+                $errors[1]['role_description'] = 'Описание роли обязательно!';
             }
-
-            if (count($errors) !== 0) {
-                echo "<pre>";
-                print_r($errors);
-                echo "</pre>";
-                return;
+            if (!empty($errors[0]) or !empty($errors[1])) {
+                print_r(json_encode($errors));
             } else {
-                echo 'ok';
+                print_r(json_encode('ok'));
                 $roleModel->createRole($roleName, $roleDescription);
             }
         }
