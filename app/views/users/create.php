@@ -4,7 +4,7 @@ $title = 'Create user';?>
 <?php ob_start(); ?>
 
 <h1>Create User </h1>
-<a class="btn" href="index.php?page=users">All users</a>
+<a class="btn btn-success" href="index.php?page=users">All users</a>
 <div class="container" id="create-user-form">
     <form method="POST" class ="form" action="">
         <div class="form-group mt-1">

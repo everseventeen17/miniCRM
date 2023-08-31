@@ -6,7 +6,7 @@ $title = 'Edit RoleModel';?>
 <div class="container" id="update-role-form">
     <form method="POST" action="index.php?page=roles&action=update&id=<?=$role['id']?>">
         <h1>Edit Role</h1>
-        <a class="btn" href="index.php?page=roles">All roles</a>
+        <a class="btn btn-success" href="index.php?page=roles">All roles</a>
         <div class="form-group mt-1">
             <label>Role Name</label>
             <input class="form-control" id="form_text_0" name="role_name" placeholder="Enter role name" value="<?= $role['role_name'] ?>">
