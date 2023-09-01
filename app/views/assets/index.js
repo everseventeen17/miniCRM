@@ -122,7 +122,7 @@ $(document).ready(function () {
             this._ajaxUrl = ajaxUrl
             this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
         }
-
+        
         setEventListeners() {
             let url = this._ajaxUrl;
             let inputList = this._inputList;
@@ -163,6 +163,13 @@ $(document).ready(function () {
                             let successPopup = new Popup('.popup');
                             successPopup.open();
                             successPopup.setEventListeners();
+                            inputList.forEach((inputElement) => {
+                                const errorElement = formElement.querySelector(`.span__error_${inputElement.name}`);
+                                inputElement.classList.remove(inputErrorClass)
+                                errorElement.classList.remove(errorClass)
+                                errorElement.textContent = ''
+                                }
+                            )
                         }
                     }
                 })
