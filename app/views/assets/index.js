@@ -122,14 +122,27 @@ $(document).ready(function () {
             this._ajaxUrl = ajaxUrl
             this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
         }
-        
+
+        _hideInputError(inputElement) {
+            const errorElement = this._formElement.querySelector(`.span__error_${inputElement.name}`);
+            inputElement.classList.remove(this._inputErrorClass)
+            errorElement.classList.remove(this._errorClass)
+            errorElement.textContent = ''
+        }
+        resetValidation() {
+            this._inputList.forEach((inputElement) => {
+                    this._hideInputError(inputElement);
+                }
+            )
+        };
+
         setEventListeners() {
             let url = this._ajaxUrl;
             let inputList = this._inputList;
             let formElement = this._formElement;
             let inputErrorClass = this._inputErrorClass
             let errorClass = this._errorClass
-
+            let classConst = this
 
             this._formElement.addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -148,7 +161,6 @@ $(document).ready(function () {
                                 return null;
                             }
                         };
-                        console.log(response())
                         $(that).find('button').attr('disabled', false)
                         if (response() !== 'ok') {
                             $(response()).each(function (index, value) {
@@ -163,20 +175,12 @@ $(document).ready(function () {
                             let successPopup = new Popup('.popup');
                             successPopup.open();
                             successPopup.setEventListeners();
-                            inputList.forEach((inputElement) => {
-                                const errorElement = formElement.querySelector(`.span__error_${inputElement.name}`);
-                                inputElement.classList.remove(inputErrorClass)
-                                errorElement.classList.remove(errorClass)
-                                errorElement.textContent = ''
-                                }
-                            )
+                            classConst.resetValidation()
                         }
                     }
                 })
 
             })
-
-
         }
     }
 
