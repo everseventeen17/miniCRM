@@ -4,9 +4,9 @@ $title = 'Create user';?>
 <?php ob_start(); ?>
 
 <h1>Create User </h1>
-<a class="btn btn-success" href="index.php?page=users">All users</a>
+<a class="btn btn-success" href="/users">All users</a>
 <div class="container" id="create-user-form">
-    <form method="POST" class ="form" action="">
+    <form method="POST" class ="form form__user-store" action="/users/store">
         <div class="form-group mt-1">
             <label for="exampleInputEmail1">Username</label>
             <input  class="form-control" id="form_text_0" name="username" placeholder="Enter name" required minlength="2" maxlength="30">

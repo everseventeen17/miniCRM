@@ -1,10 +1,10 @@
 <?php
 
-$title = 'UserModel list';?>
+$title = 'models\UserModel list';?>
 <?php ob_start(); ?>
 
 <h1> User list </h1>
-<a class="btn btn-success" href="index.php?page=users&action=create" >Create user</a>
+<a class="btn btn-success" href="/users/create" >Create user</a>
 <div class="table-responsive">
     <table class="table">
         <thead>
@@ -32,7 +32,7 @@ $title = 'UserModel list';?>
                 <td><?php echo $user['is_active'] ? 'Yes' : 'No' ?></td>
                 <td><?php echo $user['last_login'] ?></td>
                 <td>
-                    <a href='index.php?page=users&action=edit&id=<?php echo $user["id"]; ?>' class="btn btn-primary" >Edit</a>
+                    <a href='/users/edit/<?php echo $user["id"]; ?>' class="btn btn-primary" >Edit</a>
                     <button class="js-deleteUser btn btn-danger" data-user-id="<?=$user['id']?>">Delete</button>
                 </td>
             </tr>

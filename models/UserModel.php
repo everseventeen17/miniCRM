@@ -1,5 +1,7 @@
 <?php
 
+namespace models;
+
 class UserModel
 {
     private $db;
@@ -9,8 +11,8 @@ class UserModel
         $this->db = Database::getInstance()->getConnection();
         try {
             $this->db->query("SELECT 1 FROM `roles` LIMIT 1");
-             $this->db->query("SELECT 1 FROM `users` LIMIT 1");
-        } catch (PDOException $exception) {
+            $this->db->query("SELECT 1 FROM `users` LIMIT 1");
+        } catch (\PDOException $exception) {
             $this->createTable();
         }
     }
@@ -33,7 +35,7 @@ class UserModel
         try {
             $this->db->exec($userTableQuery);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             return false;
         }
     }
@@ -44,11 +46,11 @@ class UserModel
         try {
             $stmt = $this->db->query("SELECT * FROM users");
             $users = [];
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
                 $users[] = $row;
             }
             return $users;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             echo "<pre>";
             print_r($exception->getMessage());
             echo "</pre>";
@@ -69,7 +71,7 @@ class UserModel
             $stmt = $this->db->prepare($query);
             $stmt->execute([$username, $email, $password, $role, $created_at]);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             return false;
         }
     }
@@ -81,7 +83,7 @@ class UserModel
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             return false;
         }
     }
@@ -92,9 +94,9 @@ class UserModel
         try {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $result;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             return false;
         }
     }
@@ -104,14 +106,14 @@ class UserModel
         $username = $data['username'];
         $email = $data['email'];
         $role = $data['role'];
-        $isActive = isset($data['is_active']) ? 1: 0;
+        $isActive = isset($data['is_active']) ? 1 : 0;
         $isAdmin = !empty($data['admin']) && $data['admin'] !== 0 ? 1 : 0;
         $query = "UPDATE users SET username=?, email=?, is_admin=?, role=?, is_active=? WHERE id=?";
         try {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$username, $email, $isAdmin, $role, $isActive, $id,]);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             echo "<pre>";
             print_r($exception->getMessage());
             echo "</pre>";

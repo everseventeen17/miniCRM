@@ -1,5 +1,7 @@
 <?php
 
+namespace models;
+
 class AuthUserModel
 {
     private $db;
@@ -10,7 +12,7 @@ class AuthUserModel
         try {
             $this->db->query("SELECT 1 FROM `roles` LIMIT 1");
             $this->db->query("SELECT 1 FROM `users` LIMIT 1");
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             $this->createTable();
         }
     }
@@ -39,7 +41,7 @@ class AuthUserModel
             $this->db->exec($roleTableQuery);
             $this->db->exec($userTableQuery);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             return false;
         }
     }
@@ -52,7 +54,7 @@ class AuthUserModel
         try {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$username, $email, password_hash($password, PASSWORD_DEFAULT), $created_at]);
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             echo "<pre>";
             print_r($exception->getMessage());
             echo "</pre>";
@@ -60,19 +62,19 @@ class AuthUserModel
         }
     }
 
-    public function loginUser ($email, $password)
+    public function loginUser($email, $password)
     {
         try {
             $query = "SELECT FROM users WHERE email = ? LIMIT 1";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$email]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
             if ($user and password_verify($password, $user['password'])) {
                 return $user;
-            }else{
+            } else {
                 return false;
             }
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             return false;
         }
     }
@@ -83,9 +85,9 @@ class AuthUserModel
             $query = "SELECT * FROM users WHERE email = ? LIMIT 1";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$email]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $user ? $user : false;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             return false;
         }
     }
@@ -96,9 +98,9 @@ class AuthUserModel
         try {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $result;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             return false;
         }
     }
@@ -120,7 +122,7 @@ class AuthUserModel
             $stmt = $this->db->prepare($query);
             $stmt->execute([$username, $email, $isAdmin, $role, $isActive, $id,]);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             echo "<pre>";
             print_r($exception->getMessage());
             echo "</pre>";

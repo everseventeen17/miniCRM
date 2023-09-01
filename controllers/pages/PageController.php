@@ -1,4 +1,8 @@
 <?php
+
+namespace controllers\pages;
+use models\pages\PageModel;
+
 require_once 'app/models/pages/PageModel.php';
 
 class PageController
@@ -22,7 +26,7 @@ class PageController
         if (isset($_POST['page_name']) and isset($_POST['page_url'])) {
             $pageName = trim($_POST['page_name']);
             $pageUrl = trim($_POST['page_url']);
-            $errors = [0=>[], 1=>[]];
+            $errors = [0 => [], 1 => []];
             foreach ($pages as $page) {
                 if ($page['page_name'] === $pageName) {
                     $errors[0]['page_name'] = 'Такая страница уже существует!';

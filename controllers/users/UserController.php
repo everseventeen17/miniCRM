@@ -1,5 +1,7 @@
 <?php
-require_once './app/models/UserModel.php';
+
+namespace controllers\users;
+use models\UserModel;
 
 class UserController
 {
@@ -24,7 +26,7 @@ class UserController
         if (isset($_POST['username']) and isset($_POST['email']) and isset($_POST['password']) and isset($_POST['confirm_password'])) {
             $password = $_POST['password'];
             $confirm_password = $_POST['confirm_password'];
-            $errors = [0=>[],1=>[],2=>[],3=>[]];
+            $errors = [0 => [], 1 => [], 2 => [], 3 => []];
             if ($password !== $confirm_password) {
                 $errors[3]['confirm_password'] = 'Пароли не совпадают';
             }
@@ -37,7 +39,7 @@ class UserController
             if (!preg_match("/^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-0-9A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u", $_POST['email'])) {
                 $errors[1]['email'] = 'Формат ввода email не верен!';
             }
-            if (strlen($_POST['username']) <= 3 ) {
+            if (strlen($_POST['username']) <= 3) {
                 $errors[0]['username'] = 'Имя пользователя должно быть не меньше 3-ех символов!';
             }
             foreach ($users as $user) {
@@ -50,10 +52,10 @@ class UserController
             } else {
                 print_r(json_encode('ok'));
                 $data = [
-                    'username'=> $_POST['username'],
-                    'email'=> $_POST['email'],
-                    'password'=> $_POST['password'],
-                    'role'=> 1,
+                    'username' => $_POST['username'],
+                    'email' => $_POST['email'],
+                    'password' => $_POST['password'],
+                    'role' => 1,
                 ];
                 $userModel = new UserModel();
                 $userModel->createUser($data);
@@ -73,12 +75,15 @@ class UserController
         }
     }
 
-    public function edit(){
+    public function edit()
+    {
         $userModel = new UserModel();
         $user = $userModel->getUserById($_GET['id']);
         include './app/views/users/edit.php';
     }
-    public function update(){
+
+    public function update()
+    {
         $userModel = new UserModel();
         $user = $userModel->updateUserData($_GET['id'], $_POST);
         header('Location: /index.php?page=users');

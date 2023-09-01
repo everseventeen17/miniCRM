@@ -1,7 +1,7 @@
 <?php
-
-return [
-    'db_host' => 'localhost',
-    'db_user' => 'root',
-    'db_password' => '',
-    'db_name' => 'miniCRM',];
+const APP_BASE_PATH = '';
+const DB_HOST = 'localhost';
+const DB_USER = 'root';
+const DB_PASS = '';
+const DB_NAME = 'miniCRM';
+const START_ROLE = 1;

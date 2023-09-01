@@ -1,12 +1,12 @@
 <?php
-$title = 'Edit UserModel';?>
+$title = 'Edit models\UserModel';?>
 <?php ob_start(); ?>
 
 
 <div class="container" id="update-user-form">
-    <form method="POST" action="index.php?page=users&action=update&id=<?=$user['id']?>">
+    <form method="POST" class="form form__user-update" action="/users/update/<?=$user['id']?>">
         <h1>Edit User </h1>
-        <a class="btn btn-success" href="index.php?page=users">All users</a>
+        <a class="btn btn-success" href="/users">All users</a>
         <div class="form-group mt-1">
             <label for="exampleInputEmail1">Username</label>
             <input class="form-control" id="form_text_0" name="username" placeholder="Enter username" value="<?= $user['username'] ?>">

@@ -110,36 +110,10 @@ $(document).ready(function () {
 
         enableValidation() {
             this._setEventListeners();
-        }
-    }
 
-    class FormAjaxValidator {
-        constructor(formElement, ajaxUrl, config) {
-            this._inputSelector = config.inputSelector
-            this._inputErrorClass = config.inputErrorClass
-            this._errorClass = config.errorClass
-            this._formElement = formElement
-            this._ajaxUrl = ajaxUrl
-            this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-        }
-
-        _hideInputError(inputElement) {
-            const errorElement = this._formElement.querySelector(`.span__error_${inputElement.name}`);
-            inputElement.classList.remove(this._inputErrorClass)
-            errorElement.classList.remove(this._errorClass)
-            errorElement.textContent = ''
-        }
-        resetValidation() {
-            this._inputList.forEach((inputElement) => {
-                    this._hideInputError(inputElement);
-                }
-            )
-        };
-
-        setEventListeners() {
-            let url = this._ajaxUrl;
             let inputList = this._inputList;
             let formElement = this._formElement;
+            let url = formElement.getAttribute('action');
             let inputErrorClass = this._inputErrorClass
             let errorClass = this._errorClass
             let classConst = this
@@ -181,6 +155,7 @@ $(document).ready(function () {
                 })
 
             })
+
         }
     }
 
@@ -228,19 +203,9 @@ $(document).ready(function () {
     roleDeleteButton.setEventListeners();
 
     const createForm = document.querySelector('.form');
+
     if (typeof (createForm) != "undefined" && createForm !== null) {
         let createFormValidator = new FormValidator(validationConfig, createForm);
         createFormValidator.enableValidation();
-
-        let formCreatePageValidator = new FormAjaxValidator(createForm, 'index.php?page=pages&action=store', validationConfig);
-        formCreatePageValidator.setEventListeners();
-        let formCreateUserValidator = new FormAjaxValidator(createForm, 'index.php?page=users&action=store', validationConfig);
-        formCreateUserValidator.setEventListeners();
-        let formRegisterUserValidator = new FormAjaxValidator(createForm, 'index.php?page=signup&action=store', validationConfig);
-        formRegisterUserValidator.setEventListeners()
-        let formAuthUserValidator = new FormAjaxValidator(createForm, 'index.php?page=signin&action=auth', validationConfig);
-        formAuthUserValidator.setEventListeners();
-        let formCreateRoleUserValidator = new FormAjaxValidator(createForm, 'index.php?page=roles&action=store', validationConfig);
-        formCreateRoleUserValidator.setEventListeners();
     }
 });

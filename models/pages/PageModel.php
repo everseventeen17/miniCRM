@@ -1,5 +1,9 @@
 <?php
 
+namespace models\pages;
+
+use models\Database;
+
 class PageModel
 {
     private $db;
@@ -9,7 +13,7 @@ class PageModel
         $this->db = Database::getInstance()->getConnection();
         try {
             $this->db->query("SELECT 1 FROM `pages` LIMIT 1");
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             $this->createTable();
         }
     }
@@ -26,7 +30,7 @@ class PageModel
         try {
             $this->db->exec($pagesTableQuery);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             return false;
         }
     }
@@ -36,11 +40,11 @@ class PageModel
         try {
             $stmt = $this->db->query("SELECT * FROM pages");
             $pages = [];
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
                 $pages[] = $row;
             }
             return $pages;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             print_r($exception->getMessage());
             return false;
         }
@@ -52,9 +56,9 @@ class PageModel
             $query = "SELECT * FROM pages WHERE id = ?";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $result ? $result : false;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             print_r($exception->getMessage());
             return false;
         }
@@ -66,7 +70,7 @@ class PageModel
             $query = "INSERT INTO pages (page_name, page_url) VALUES (?,?)";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$pageName, $pageUrl]);
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             print_r($exception->getMessage());
             return false;
         }
@@ -79,7 +83,7 @@ class PageModel
             $stmt = $this->db->prepare($query);
             $stmt->execute([$pageUrl, $pageUrl, $id,]);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             print_r($exception->getMessage());
             return false;
         }
@@ -92,7 +96,7 @@ class PageModel
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             $exception->getMessage();
             return false;
         }

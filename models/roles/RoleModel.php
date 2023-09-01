@@ -1,5 +1,9 @@
 <?php
 
+namespace models\roles;
+
+use models\Database;
+
 class RoleModel
 {
     private $db;
@@ -9,7 +13,7 @@ class RoleModel
         $this->db = Database::getInstance()->getConnection();
         try {
             $this->db->query("SELECT 1 FROM `roles` LIMIT 1");
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             $this->createTable();
         }
     }
@@ -24,7 +28,7 @@ class RoleModel
         try {
             $this->db->exec($roleTableQuery);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             return false;
         }
     }
@@ -34,11 +38,11 @@ class RoleModel
         try {
             $stmt = $this->db->query("SELECT * FROM roles");
             $roles = [];
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
                 $roles[] = $row;
             }
             return $roles;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             print_r($exception->getMessage());
             return false;
         }
@@ -50,9 +54,9 @@ class RoleModel
             $query = "SELECT * FROM roles WHERE id = ?";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $result ? $result : false;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             print_r($exception->getMessage());
             return false;
         }
@@ -64,7 +68,7 @@ class RoleModel
             $query = "INSERT INTO roles (role_name, role_description) VALUES (?,?)";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$roleName, $roleDescription]);
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             print_r($exception->getMessage());
             return false;
         }
@@ -77,7 +81,7 @@ class RoleModel
             $stmt = $this->db->prepare($query);
             $stmt->execute([$roleName, $roleDescription, $id,]);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             print_r($exception->getMessage());
             return false;
         }
@@ -90,7 +94,7 @@ class RoleModel
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
             return true;
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             $exception->getMessage();
             return false;
         }

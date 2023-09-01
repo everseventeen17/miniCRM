@@ -4,7 +4,7 @@ $title = 'Login';?>
 <?php ob_start(); ?>
 
     <div class="container" id="login-user-form">
-        <form method="POST" action="" class="form">
+        <form method="POST" action="" class="form form__user-auth">
             <h1>Login</h1>
             <div class="form-group mt-1">
                 <label for="exampleInputEmail1">Email address</label>

@@ -22,10 +22,10 @@
                     <span class="fs-5 d-none d-sm-inline">Menu</span>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index.php">Home</a>
+                        <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/index.php?page=users">Users</a>
+                        <a class="nav-link" href="/users">Users</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/index.php?page=roles">Roles</a>

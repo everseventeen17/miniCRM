@@ -1,4 +1,8 @@
 <?php
+
+namespace controllers\roles;
+use models\roles\RoleModel;
+
 require_once 'app/models/roles/RoleModel.php';
 
 class RoleController
@@ -22,7 +26,7 @@ class RoleController
         if (isset($_POST['role_name']) and isset($_POST['role_description'])) {
             $roleName = trim($_POST['role_name']);
             $roleDescription = trim($_POST['role_description']);
-            $errors = [0=>[],1=>[]];
+            $errors = [0 => [], 1 => []];
             foreach ($roles as $role) {
                 if ($role['role_name'] === $roleName) {
                     $errors[0]['role_name'] = 'Такая роль уже существует!';
@@ -60,7 +64,7 @@ class RoleController
         $roleModel = new RoleModel();
         $role = $roleModel->getRoleById($_GET['id']);
         if (!$role) {
-            echo "RoleModel not fount";
+            echo "models\roles\RoleModel not fount";
             return;
         }
         include './app/views/roles/edit.php';
@@ -75,10 +79,10 @@ class RoleController
             $id = $_POST['id'];
             $errors = [];
             if (empty($roleName)) {
-                $errors[] = "RoleModel name is required";
+                $errors[] = "models\roles\RoleModel name is required";
             }
             if (empty($roleDescription)) {
-                $errors[] = "RoleModel description is required";
+                $errors[] = "models\roles\RoleModel description is required";
             }
             if (empty($id)) {
                 $errors[] = "You may choose role";

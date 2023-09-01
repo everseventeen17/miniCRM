@@ -1,5 +1,10 @@
 <?php
 
+namespace controllers\auth;
+use models\AuthUserModel;
+use models\UserModel;
+use function controllers\users\setcookie;
+
 require_once 'app/models/AuthUserModel.php';
 
 class AuthController
@@ -90,11 +95,11 @@ class AuthController
         }
     }
 
-        public function logout()
-        {
-            session_start();
-            session_unset();
-            session_destroy();
-            header('Location: /index.php?page=users');
-        }
+    public function logout()
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+        header('Location: /index.php?page=users');
     }
+}
