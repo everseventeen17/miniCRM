@@ -1,11 +1,10 @@
 <?php
 
 namespace controllers\auth;
+
 use models\AuthUserModel;
 use models\UserModel;
-use function controllers\users\setcookie;
 
-require_once 'app/models/AuthUserModel.php';
 
 class AuthController
 {
@@ -21,33 +20,31 @@ class AuthController
         if (isset($_POST['username']) and isset($_POST['email']) and isset($_POST['password']) and isset($_POST['confirm_password'])) {
             $password = $_POST['password'];
             $confirm_password = $_POST['confirm_password'];
-            $errors = [];
+            $errors = [0 => [], 1 => [], 2 => [], 3 => []];
             if ($password !== $confirm_password) {
-                $errors[] = 'Пароли не совпадают';
+                $errors[3]['confirm_password'] = 'Пароли не совпадают';
             }
             if (strlen($password) < 3) {
-                $errors[] = 'Длинна пароля должна быть не меньше 3 символов';
+                $errors[2]['password'] = 'Длинна пароля должна быть не меньше 3 символов';
             }
             if (strlen($_POST['email']) > 50) {
-                $errors[] = 'Email должен быть короче 50 символов';
+                $errors[1]['email'] = 'Email должен быть короче 50 символов';
             }
             if (!preg_match("/^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-0-9A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u", $_POST['email'])) {
-                $errors[] = 'Формат ввода email не верен!';
+                $errors[1]['email'] = 'Формат ввода email не верен!';
             }
             if (strlen($_POST['username']) <= 3) {
-                $errors[] = 'Имя пользователя должно быть не меньше 3-ех символов!';
+                $errors[0]['username'] = 'Имя пользователя должно быть не меньше 3-ех символов!';
             }
             foreach ($users as $user) {
                 if ($user['email'] === $_POST['email']) {
-                    $errors[] = 'Пользователь с данным email уже существует!';
+                    $errors[1]['email'] = 'Пользователь с данным email уже существует!';
                 }
             }
-            if (count($errors) !== 0) {
-                echo "<pre>";
-                print_r($errors);
-                echo "</pre>";
+            if (!empty($errors[0]) or !empty($errors[1]) or !empty($errors[2]) or !empty($errors[3])) {
+                print_r(json_encode($errors));
             } else {
-                echo 'ok';
+                print_r(json_encode('ok'));
                 $data = [
                     'username' => $_POST['username'],
                     'email' => $_POST['email'],
@@ -88,9 +85,10 @@ class AuthController
                 $_SESSION['user_role'] = $user['role'];
                 if ($rememberMe === 'on') {
                     setcookie('user_email', $email, time() + (7 * 24 * 60 * 60), '/');
+                    setcookie('user_name', $user['username'], time() + (7 * 24 * 60 * 60), '/');
                     setcookie('user_password', $password, time() + (7 * 24 * 60 * 60), '/');
-                    print_r(json_encode('ok'));
                 }
+                print_r(json_encode('ok'));
             }
         }
     }
@@ -100,6 +98,6 @@ class AuthController
         session_start();
         session_unset();
         session_destroy();
-        header('Location: /index.php?page=users');
+        header('Location: /');
     }
 }

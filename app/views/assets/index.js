@@ -175,7 +175,7 @@ $(document).ready(function () {
                     buttonElement.setAttribute('disabled', true);
                     $.ajax({
                         type: "POST",
-                        url: `index.php?page=${this._ajaxUrl}&action=delete&id=${pageId}`,
+                        url: `/${this._ajaxUrl}/delete/${pageId}`,
                         dataType: 'text',
                         data: pageId,
                         success: function (data) {

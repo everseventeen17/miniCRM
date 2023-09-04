@@ -1,5 +1,5 @@
 <?php
-$title = 'Edit models\UserModel';?>
+$title = 'Update user';?>
 <?php ob_start(); ?>
 
 
@@ -9,12 +9,13 @@ $title = 'Edit models\UserModel';?>
         <a class="btn btn-success" href="/users">All users</a>
         <div class="form-group mt-1">
             <label for="exampleInputEmail1">Username</label>
-            <input class="form-control" id="form_text_0" name="username" placeholder="Enter username" value="<?= $user['username'] ?>">
+            <input class="form-control" id="form_text_0" name="username" required minlength="2" maxlength="30" placeholder="Enter username" value="<?= $user['username'] ?>">
+            <span class="span__error span__error_username">1</span>
         </div>
         <div class="form-group mt-1">
             <label for="exampleInputEmail1">Email address</label>
-            <input  class="form-control" id="form_text_1" name="email" aria-describedby="emailHelp" placeholder="Enter email" value="<?= $user['email'] ?>">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <input  class="form-control" id="form_text_1" name="email"  type="email" required minlength="2" maxlength="30" aria-describedby="emailHelp" placeholder="Enter email" value="<?= $user['email'] ?>">
+            <span class="span__error span__error_email">1</span>
         </div>
         <div class="form-group mt-1">
             <label for="exampleFormControlSelect1">Role</label>
@@ -31,3 +32,5 @@ $title = 'Edit models\UserModel';?>
 
 <?php $content = ob_get_clean();
 include './app/views/layout.php';
+include './app/views/popups/success.php';
+echo $successPopup;

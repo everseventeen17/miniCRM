@@ -45,3 +45,5 @@ $title = 'models\UserModel list';?>
 
 <?php $content = ob_get_clean();
 include './app/views/layout.php';
+include './app/views/popups/success.php';
+echo $successPopup;

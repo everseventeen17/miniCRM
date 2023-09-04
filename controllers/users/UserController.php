@@ -66,7 +66,9 @@ class UserController
     public function delete()
     {
         $userModel = new UserModel();
-        if ($userModel->deleteUser($_GET['id'])) {
+        $url = $_SERVER['REQUEST_URI'];
+        $url = explode('/', $url);
+        if ($userModel->deleteUser($url[3])) {
             echo 1;
             return;
         } else {
@@ -78,15 +80,25 @@ class UserController
     public function edit()
     {
         $userModel = new UserModel();
-        $user = $userModel->getUserById($_GET['id']);
+        $url = $_SERVER['REQUEST_URI'];
+        $url = explode('/', $url);
+        $userModel = new UserModel();
+        $user = $userModel->getUserById($url[3]);
         include './app/views/users/edit.php';
     }
 
     public function update()
     {
         $userModel = new UserModel();
-        $user = $userModel->updateUserData($_GET['id'], $_POST);
-        header('Location: /index.php?page=users');
+        $url = $_SERVER['REQUEST_URI'];
+        $url = explode('/', $url);
+        $userModel = new UserModel();
+        $user = $userModel->updateUserData($url[3], $_POST);
+        if($user){
+            print_r(json_encode('ok'));
+        }else{
+            return;
+        }
     }
 
 }

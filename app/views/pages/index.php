@@ -3,7 +3,7 @@ $title = 'Pages Page';?>
 <?php ob_start(); ?>
 
     <h1> Pages page </h1>
-    <a class="btn btn-success" href="index.php?page=pages&action=create" >Create page</a>
+    <a class="btn btn-success" href="/pages/create" >Create page</a>
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -21,7 +21,7 @@ $title = 'Pages Page';?>
                     <td><?php echo $page['page_name'] ?></td>
                     <td><?php echo $page['page_url']?></td>
                     <td>
-                        <a href='index.php?page=pages&action=edit&id=<?php echo $page["id"]; ?>' class="btn btn-primary" >Edit</a>
+                        <a href='/pages/edit/<?php echo $page["id"]; ?>' class="btn btn-primary" >Edit</a>
                         <button class="js-deletePage btn btn-danger" data-page-id="<?=$page['id']?>">Delete</button>
                     </td>
                 </tr>

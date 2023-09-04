@@ -8,7 +8,7 @@ $title = 'Roles Page';?>
 <?php ob_start(); ?>
 
     <h1> Roles page </h1>
-    <a class="btn btn-success" href="index.php?page=roles&action=create" >Create role</a>
+    <a class="btn btn-success" href="/roles/create" >Create role</a>
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -26,7 +26,7 @@ $title = 'Roles Page';?>
                     <td><?php echo $role['role_name'] ?></td>
                     <td><?php echo $role['role_description']?></td>
                     <td>
-                        <a href='index.php?page=roles&action=edit&id=<?php echo $role["id"]; ?>' class="btn btn-primary" >Edit</a>
+                        <a href='roles/edit/<?php echo $role["id"]; ?>' class="btn btn-primary" >Edit</a>
                         <button class="js-deleteRole btn btn-danger" data-role-id="<?=$role['id']?>">Delete</button>
                     </td>
                 </tr>

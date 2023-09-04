@@ -1,9 +1,9 @@
 <?php
 
 namespace controllers\roles;
+
 use models\roles\RoleModel;
 
-require_once 'app/models/roles/RoleModel.php';
 
 class RoleController
 {
@@ -49,8 +49,10 @@ class RoleController
 
     public function delete()
     {
+        $url = $_SERVER['REQUEST_URI'];
+        $url = explode('/', $url);
         $roleModel = new RoleModel();
-        if ($roleModel->deleteRole($_GET['id'])) {
+        if ($roleModel->deleteRole($url[3])) {
             echo 1;
             return;
         } else {
@@ -61,8 +63,10 @@ class RoleController
 
     public function edit()
     {
+        $url = $_SERVER['REQUEST_URI'];
+        $url = explode('/', $url);
         $roleModel = new RoleModel();
-        $role = $roleModel->getRoleById($_GET['id']);
+        $role = $roleModel->getRoleById($url[3]);
         if (!$role) {
             echo "models\roles\RoleModel not fount";
             return;
@@ -77,26 +81,23 @@ class RoleController
             $roleName = trim($_POST['role_name']);
             $roleDescription = trim($_POST['role_description']);
             $id = $_POST['id'];
-            $errors = [];
+            $errors = [0 => [], 1 => []];
             if (empty($roleName)) {
-                $errors[] = "models\roles\RoleModel name is required";
+                $errors[0]['role_name'] = 'Введите название роли';
             }
             if (empty($roleDescription)) {
-                $errors[] = "models\roles\RoleModel description is required";
+                $errors[1]['role_description'] = 'Введите описание роли!';
             }
             if (empty($id)) {
-                $errors[] = "You may choose role";
+                $errors[1]['role_name'] = 'Выберете роль';
             }
-            if (count($errors) !== 0) {
-                echo "<pre>";
-                print_r($errors);
-                echo "</pre>";
+            if (!empty($errors[0]) or !empty($errors[1])) {
+                print_r(json_encode($errors));
                 return;
             } else {
-                echo 'ok';
+                print_r(json_encode('ok'));
                 $role = $roleModel->updateRole($roleName, $roleDescription, $id);
             }
         }
-//        header('Location: /index.php?page=users');
     }
 }

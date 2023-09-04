@@ -4,7 +4,7 @@ $title = 'Login';?>
 <?php ob_start(); ?>
 
     <div class="container" id="login-user-form">
-        <form method="POST" action="" class="form form__user-auth">
+        <form method="POST" action="/auth/auth" class="form form__user-auth">
             <h1>Login</h1>
             <div class="form-group mt-1">
                 <label for="exampleInputEmail1">Email address</label>
@@ -23,7 +23,7 @@ $title = 'Login';?>
                 </label>
             </div>
             <button type="submit" class="btn submit-btn btn-primary mt-3">Login</button>
-           <span class="ms-3 mt-3 align-middle">Didn't have an account? You may <a class="" href="/index.php?page=register">Register</a></span>
+           <span class="ms-3 mt-3 align-middle">Didn't have an account? You may <a class="" href="/auth/register">Register</a></span>
         </form>
     </div>
 

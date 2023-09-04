@@ -3,7 +3,6 @@
 namespace controllers\pages;
 use models\pages\PageModel;
 
-require_once 'app/models/pages/PageModel.php';
 
 class PageController
 {
@@ -54,7 +53,9 @@ class PageController
     public function delete()
     {
         $pageModel = new PageModel();
-        if ($pageModel->deletePage($_GET['id'])) {
+        $url = $_SERVER['REQUEST_URI'];
+        $url = explode('/', $url);
+        if ($pageModel->deletePage($url[3])) {
             echo 1;
             return;
         } else {
@@ -65,13 +66,16 @@ class PageController
 
     public function edit()
     {
+        $url = $_SERVER['REQUEST_URI'];
+        $url = explode('/', $url);
         $pageModel = new PageModel();
-        $page = $pageModel->getPageById($_GET['id']);
+        $page = $pageModel->getPageById($url[3]);
         if (!$page) {
-            echo "Page not fount";
+            echo "Page not found";
             return;
+        }else{
+            include './app/views/pages/edit.php';
         }
-        include './app/views/pages/edit.php';
     }
 
     public function update()
@@ -81,23 +85,21 @@ class PageController
             $pageName = trim($_POST['page_name']);
             $pageUrl = trim($_POST['page_url']);
             $id = $_POST['id'];
-            $errors = [];
+            $errors = [0 => [], 1 => []];
             if (empty($pageName)) {
-                $errors[] = "Page name is required";
+                $errors[0]['page_name'] = 'Название роли обязательно';
             }
             if (empty($pageUrl)) {
-                $errors[] = "Page url is required";
+                $errors[1]['page_url'] = 'Url старницы обязательно!';
             }
             if (empty($id)) {
-                $errors[] = "You may choose page";
+                $errors[0]['page_name'] = 'Выберете страницу!';
             }
-            if (count($errors) !== 0) {
-                echo "<pre>";
-                print_r($errors);
-                echo "</pre>";
+            if (!empty($errors[0]) or !empty($errors[1])) {
+                print_r(json_encode($errors));
                 return;
             } else {
-                echo 'ok';
+                print_r(json_encode('ok'));
                 $role = $pageModel->updatePage($pageName, $pageUrl, $id);
             }
         }

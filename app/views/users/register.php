@@ -3,7 +3,7 @@
 $title = 'Register user';?>
 <?php ob_start(); ?>
     <div class="container" id="register-user-form">
-        <form method="POST" action="" class="form form__user-registration">
+        <form method="POST" action="/auth/store" class="form form__user-registration">
             <h1>Registration</h1>
             <div class="form-group mt-1">
                 <label for="exampleInputEmail1">Username</label>
@@ -26,7 +26,7 @@ $title = 'Register user';?>
                 <span class="span__error span__error_confirm_password">1</span>
             </div>
             <button type="submit" class="btn submit-btn btn-primary mt-3">Register</button>
-           <span class="ms-3 mt-3 align-middle">Already have an account? You may <a class="" href="/index.php?page=login">Login</a></span>
+           <span class="ms-3 mt-3 align-middle">Already have an account? You may <a class="" href="/auth/login">Login</a></span>
         </form>
     </div>
 

@@ -28,26 +28,27 @@
                         <a class="nav-link" href="/users">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/index.php?page=roles">Roles</a>
+                        <a class="nav-link" href="/roles">Roles</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/index.php?page=pages">Pages</a>
+                        <a class="nav-link" href="/pages">Pages</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/index.php?page=register">Register</a>
+                        <a class="nav-link" href="/auth/register">Register</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/index.php?page=login">Login</a>
+                        <a class="nav-link" href="/auth/login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/index.php?page=logout">Logout</a>
+                        <a class="nav-link" href="/auth/logout">Logout</a>
                     </li>
                 </ul>
                 <hr>
+                <?php if(isset($_COOKIE['user_name']) and !empty($_COOKIE['user_name'])){?>
                 <div class="dropdown pb-4">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
-                        <span class="d-none d-sm-inline mx-1">User</span>
+                        <span class="d-none d-sm-inline mx-1"><?=$_COOKIE['user_name']?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                         <li><a class="dropdown-item" href="#">New project...</a></li>
@@ -56,9 +57,10 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="/index.php?page=logout">Sign out</a></li>
+                        <li><a class="dropdown-item" href="/auth/logout">Sign out</a></li>
                     </ul>
                 </div>
+                <?php }?>
             </div>
         </div>
         <div class="col py-3 px-5 mt-5">

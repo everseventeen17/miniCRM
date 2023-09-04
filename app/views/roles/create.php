@@ -6,9 +6,9 @@ $title = 'Create role';
 
 
 <div class="container" id="create-role-form">
-    <form method="POST" action="" class="form">
+    <form method="POST" action="/roles/store" class="form">
         <h1>Create Role </h1>
-        <a class="btn btn-success" href="index.php?page=roles">All roles</a>
+        <a class="btn btn-success" href="/roles">All roles</a>
         <div class="form-group mt-1">
             <label>Role name</label>
             <input  class="form-control" id="form_text_0" name="role_name" placeholder="Enter role name" required minlength="2" maxlength="30">
