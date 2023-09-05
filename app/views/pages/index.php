@@ -1,5 +1,6 @@
 <?php
-$title = 'Pages Page';?>
+$title = 'Pages Page';
+?>
 <?php ob_start(); ?>
 
     <h1> Pages page </h1>
@@ -10,6 +11,7 @@ $title = 'Pages Page';?>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Page Name</th>
+                <th scope="col">Role</th>
                 <th scope="col">Page Description</th>
             </tr>
             </thead>
@@ -19,6 +21,7 @@ $title = 'Pages Page';?>
                 <tr js-page-id="<?=$page['id']?>" id="pageRow">
                     <th scope="row"><?php echo $page['id'] ?></th>
                     <td><?php echo $page['page_name'] ?></td>
+                    <td><?php echo $page['role'] ?></td>
                     <td><?php echo $page['page_url']?></td>
                     <td>
                         <a href='/pages/edit/<?php echo $page["id"]; ?>' class="btn btn-primary" >Edit</a>

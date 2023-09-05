@@ -2,12 +2,20 @@
 
 namespace controllers\users;
 use models\UserModel;
+use models\Check;
 
 class UserController
 {
+    private $check;
 
+    public function __construct()
+    {
+        $userRole = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : null;
+        $this->check = new Check($userRole);
+    }
     public function index()
     {
+        $this->check->requirePermission();
         $userModel = new UserModel();
         $users = $userModel->getAllUsers();
         include './app/views/users/index.php';
@@ -15,11 +23,13 @@ class UserController
 
     public function create()
     {
+        $this->check->requirePermission();
         include './app/views/users/create.php';
     }
 
     public function store()
     {
+        $this->check->requirePermission();
         $userModel = new UserModel();
         $users = $userModel->getAllUsers();
 
@@ -65,6 +75,7 @@ class UserController
 
     public function delete()
     {
+        $this->check->requirePermission();
         $userModel = new UserModel();
         $url = $_SERVER['REQUEST_URI'];
         $url = explode('/', $url);
@@ -79,6 +90,7 @@ class UserController
 
     public function edit()
     {
+        $this->check->requirePermission();
         $userModel = new UserModel();
         $url = $_SERVER['REQUEST_URI'];
         $url = explode('/', $url);
@@ -89,6 +101,7 @@ class UserController
 
     public function update()
     {
+        $this->check->requirePermission();
         $userModel = new UserModel();
         $url = $_SERVER['REQUEST_URI'];
         $url = explode('/', $url);

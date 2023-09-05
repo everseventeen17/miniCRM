@@ -32,8 +32,12 @@ class UserModel
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`role`) REFERENCES `roles`(`id`)
     )";
+        $basicUser ="INSERT INTO `users`(`username`, `email`, `password`, `role`) VALUES ('test','test@mail.com', '$2y$10$3Af2IWDFzl.uc9nSyc3mi.7YOkhpmGYloW1UNzgebX9Pq.Lrw6d8C', '1')";
+        $admin ="INSERT INTO `users`(`username`, `email`, `password`, `role`) VALUES ('admin','admin@mail.com', '$2y$10$3Af2IWDFzl.uc9nSyc3mi.7YOkhpmGYloW1UNzgebX9Pq.Lrw6d8C', '2')";
         try {
             $this->db->exec($userTableQuery);
+            $this->db->exec($basicUser);
+            $this->db->exec($admin);
             return true;
         } catch (\PDOException $exception) {
             return false;

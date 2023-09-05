@@ -3,12 +3,20 @@
 namespace controllers\roles;
 
 use models\roles\RoleModel;
-
+use models\Check;
 
 class RoleController
 {
+    private $check;
+
+    public function __construct()
+    {
+        $userRole = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : null;
+        $this->check = new Check($userRole);
+    }
     public function index()
     {
+        $this->check->requirePermission();
         $roleModel = new RoleModel();
         $roles = $roleModel->getAllRoles();
         include './app/views/roles/index.php';
@@ -16,11 +24,13 @@ class RoleController
 
     public function create()
     {
+        $this->check->requirePermission();
         include './app/views/roles/create.php';
     }
 
     public function store()
     {
+        $this->check->requirePermission();
         $roleModel = new RoleModel();
         $roles = $roleModel->getAllRoles();
         if (isset($_POST['role_name']) and isset($_POST['role_description'])) {
@@ -49,6 +59,7 @@ class RoleController
 
     public function delete()
     {
+        $this->check->requirePermission();
         $url = $_SERVER['REQUEST_URI'];
         $url = explode('/', $url);
         $roleModel = new RoleModel();
@@ -63,6 +74,7 @@ class RoleController
 
     public function edit()
     {
+        $this->check->requirePermission();
         $url = $_SERVER['REQUEST_URI'];
         $url = explode('/', $url);
         $roleModel = new RoleModel();
@@ -76,6 +88,7 @@ class RoleController
 
     public function update()
     {
+        $this->check->requirePermission();
         $roleModel = new RoleModel();
         if (isset($_POST['role_name']) and isset($_POST['role_description']) and isset($_POST['id'])) {
             $roleName = trim($_POST['role_name']);

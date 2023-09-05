@@ -3,6 +3,7 @@
 namespace controllers\auth;
 
 use models\AuthUserModel;
+use models\Check;
 use models\UserModel;
 
 

@@ -25,8 +25,12 @@ class RoleModel
     `role_name` VARCHAR(255) NOT NULL,
     `role_description` TEXT
     )";
+        $basicUserRole ="INSERT INTO `roles`(`role_name`, `role_description`) VALUES ('NOT_admin','BasicUserRoleDescription')";
+        $admin ="INSERT INTO `roles`(`role_name`, `role_description`) VALUES ('admin','admin')";
         try {
             $this->db->exec($roleTableQuery);
+            $this->db->exec($basicUserRole);
+            $this->db->exec($admin);
             return true;
         } catch (\PDOException $exception) {
             return false;

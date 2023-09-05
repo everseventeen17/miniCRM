@@ -39,12 +39,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/auth/login">Login</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/auth/logout">Logout</a>
-                    </li>
                 </ul>
                 <hr>
-                <?php if(isset($_COOKIE['user_name']) and !empty($_COOKIE['user_name'])){?>
+                <?php
+                if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){?>
                 <div class="dropdown pb-4">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
