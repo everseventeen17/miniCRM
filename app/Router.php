@@ -7,6 +7,7 @@ use controllers\users\UserController;
 use controllers\roles\RoleController;
 use controllers\pages\PageController;
 use controllers\auth\AuthController;
+use controllers\todo\category\CategoryController;
 
 class Router
 {
@@ -16,6 +17,7 @@ class Router
         '/auth(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'auth\\AuthController'],
         '/roles(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'roles\\RoleController'],
         '/pages(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'pages\\PageController'],
+        '/todo\/category(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'todo\category\\CategoryController'],
         '/(register|login|authenticate|logout)(\/(?P<action>[a-z]+))?$/' => ['controller' => 'auth\\AuthController']
     ];
 

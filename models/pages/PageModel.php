@@ -49,7 +49,6 @@ class PageModel
         $rolesEditPage = "INSERT INTO `pages`(`page_name`, `page_url`, `role`) VALUES ('RolesEdit','roles/edit','2')";
         $rolesStorePage = "INSERT INTO `pages`(`page_name`, `page_url`, `role`) VALUES ('RolesStore','roles/store','2')";
         $rolesDeletePage = "INSERT INTO `pages`(`page_name`, `page_url`, `role`) VALUES ('RolesDelete','roles/delete','2')";
-
         try {
             $this->db->exec($pagesTableQuery);
 //users

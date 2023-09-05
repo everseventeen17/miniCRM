@@ -22,22 +22,21 @@
                     <span class="fs-5 d-none d-sm-inline">Menu</span>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link <?= is_page_active('/')?>" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users">Users</a>
+                        <a class="nav-link <?= is_page_active('/users')?>" href="/users">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/roles">Roles</a>
+                        <a class="nav-link <?= is_page_active('/roles')?>" href="/roles">Roles</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/pages">Pages</a>
+                        <a class="nav-link <?= is_page_active('/pages')?>" href="/pages">Pages</a>
                     </li>
+                    <hr>
+                    <span class="fs-5 d-none d-sm-inline">Categories</span>
                     <li class="nav-item">
-                        <a class="nav-link" href="/auth/register">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/auth/login">Login</a>
+                        <a class="nav-link <?= is_page_active('/todo/category')?>" href="/todo/category">Todo</a>
                     </li>
                 </ul>
                 <hr>
@@ -58,7 +57,17 @@
                         <li><a class="dropdown-item" href="/auth/logout">Sign out</a></li>
                     </ul>
                 </div>
-                <?php }?>
+                <?php }else{?>
+                    <div class="dropdown pb-4">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="d-none d-sm-inline mx-1">USER</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                            <li><a class="dropdown-item" href="/auth/login">Login</a></li>
+                            <li><a class="dropdown-item" href="/auth/register">Register</a></li>
+                        </ul>
+                    </div>
+                <?php } ?>
             </div>
         </div>
         <div class="col py-3 px-5 mt-5">

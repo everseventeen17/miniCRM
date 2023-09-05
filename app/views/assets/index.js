@@ -201,6 +201,9 @@ $(document).ready(function () {
     //удаление роли из базы данных
     let roleDeleteButton = new deleteButton('.js-deleteRole', 'roles', 'data-role-id');
     roleDeleteButton.setEventListeners();
+    //удаление ТО DО категории из базы данных
+    let todoDeleteButton = new deleteButton('.js-deleteTodoCategory', 'todo/category', 'data-todo-id');
+    todoDeleteButton.setEventListeners();
 
     const createForm = document.querySelector('.form');
 

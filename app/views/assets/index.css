@@ -28,3 +28,9 @@
 .btn-disabled:hover {
     background-color: transparent;
 }
+.active-page {
+    color: white;
+}
+.active-page:hover {
+    color: white;
+}
