@@ -49,6 +49,9 @@ class PageModel
         $rolesEditPage = "INSERT INTO `pages`(`page_name`, `page_url`, `role`) VALUES ('RolesEdit','roles/edit','2')";
         $rolesStorePage = "INSERT INTO `pages`(`page_name`, `page_url`, `role`) VALUES ('RolesStore','roles/store','2')";
         $rolesDeletePage = "INSERT INTO `pages`(`page_name`, `page_url`, `role`) VALUES ('RolesDelete','roles/delete','2')";
+
+        $todoCategoryPage = "INSERT INTO `pages`(`page_name`, `page_url`, `role`) VALUES ('TodoCategory','todo/category','1,2')";
+        $todoTasksPage = "INSERT INTO `pages`(`page_name`, `page_url`, `role`) VALUES ('TodoTasks','todo/tasks','1,2')";
         try {
             $this->db->exec($pagesTableQuery);
 //users
@@ -73,6 +76,9 @@ class PageModel
             $this->db->exec($pagesStorePage);
             $this->db->exec($pagesEditPage);
             $this->db->exec($pagesDeletePage);
+
+            $this->db->exec($todoCategoryPage);
+            $this->db->exec($todoTasksPage);
             return true;
         } catch (\PDOException $exception) {
             return false;

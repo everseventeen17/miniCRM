@@ -27,7 +27,7 @@ $title = 'Todo Category';?>
                     <th scope="row"><?php echo $category['id'] ?></th>
                     <td><?php echo $category['title'] ?></td>
                     <td><?php echo $category['description']?></td>
-                    <td><?php echo $category['usability']?></td>
+                    <td><?php echo $category['usability'] == 1 ? 'Yes' : 'No'; ?></td>
                     <td>
                         <a href='category/edit/<?php echo $category["id"]; ?>' class="btn btn-primary" >Edit</a>
                         <button class="js-deleteTodoCategory btn btn-danger" data-todo-id="<?=$category['id']?>">Delete</button>

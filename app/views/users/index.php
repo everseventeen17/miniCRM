@@ -1,6 +1,6 @@
 <?php
 
-$title = 'models\user\UserModel list';?>
+$title = 'Users';?>
 <?php ob_start(); ?>
 
 <h1> User list </h1>

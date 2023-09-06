@@ -19,7 +19,7 @@ $title = 'Create category';
             <textarea  class="form-control" id="form_text_1" rows="10" name="description" required minlength="2" maxlength="100"></textarea>
             <span class="span__error span__error_description">1</span>
         </div>
-        <button type="submit" class="btn submit-btn btn-primary mt-3">Create role</button>
+        <button type="submit" class="btn submit-btn btn-primary mt-3">Create category</button>
     </form>
 </div>
 

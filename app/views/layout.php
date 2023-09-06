@@ -10,8 +10,11 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/app/views/assets/index.css">
 
-    <title></title>
+    <title><?=$title?></title>
+    <link rel="icon" type="image/x-icon" href="/app/views/assets/images/favico.png">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/fa8a90309e.js" crossorigin="anonymous"></script>
     <script src="/app/views/assets/index.js"></script>
 </head>
 <body>
@@ -21,7 +24,8 @@
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 mt-5">
                     <span class="fs-5 d-none d-sm-inline">Menu</span>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <?php if(isset($_SESSION['user_id']) and (in_array($_SESSION['user_role'], array( 2)))) : ?>
+                    <?php if(isset($_SESSION['user_id']) and (in_array($_SESSION['user_role'], array(1,2)))) : ?>
+                    <?php if(isset($_SESSION['user_id']) and (in_array($_SESSION['user_role'], array(2)))) : ?>
                     <li class="nav-item">
                         <a class="nav-link <?= is_page_active('/')?>" href="/">Home</a>
                     </li>
@@ -40,18 +44,20 @@
                     <li class="nav-item">
                         <a class="nav-link <?= is_page_active('/todo/category')?>" href="/todo/category">Todo</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= is_page_active('/todo/tasks')?>" href="/todo/tasks">TodoList</a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
                 <hr>
                 <?php
                 if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){?>
                 <div class="dropdown pb-4">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                        <i class="fa-regular fa-circle-user fa-xl" style="color: #ffffff;"></i>
                         <span class="d-none d-sm-inline mx-1"><?=$_COOKIE['user_name']?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><a class="dropdown-item" href="#">New project...</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
@@ -62,6 +68,7 @@
                 <?php }else{?>
                     <div class="dropdown pb-4">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-regular fa-circle-user fa-xl" style="color: #ffffff;"></i>
                             <span class="d-none d-sm-inline mx-1">USER</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
