@@ -2,9 +2,8 @@
 
 namespace controllers\auth;
 
-use models\AuthUserModel;
-use models\Check;
-use models\UserModel;
+use models\auth\AuthUserModel;
+use models\user\UserModel;
 
 
 class AuthController

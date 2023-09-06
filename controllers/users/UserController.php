@@ -1,8 +1,8 @@
 <?php
 
 namespace controllers\users;
-use models\UserModel;
 use models\Check;
+use models\user\UserModel;
 
 class UserController
 {

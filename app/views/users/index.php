@@ -1,6 +1,6 @@
 <?php
 
-$title = 'models\UserModel list';?>
+$title = 'models\user\UserModel list';?>
 <?php ob_start(); ?>
 
 <h1> User list </h1>
@@ -17,6 +17,7 @@ $title = 'models\UserModel list';?>
             <th scope="col">Role</th>
             <th scope="col">Is active</th>
             <th scope="col">Last login</th>
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>

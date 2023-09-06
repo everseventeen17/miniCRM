@@ -13,6 +13,7 @@ $title = 'Pages Page';
                 <th scope="col">Page Name</th>
                 <th scope="col">Role</th>
                 <th scope="col">Page Description</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>

@@ -16,6 +16,7 @@ $title = 'Roles Page';?>
                 <th scope="col">#</th>
                 <th scope="col">Role Name</th>
                 <th scope="col">Role Description</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>

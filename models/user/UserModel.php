@@ -1,8 +1,10 @@
 <?php
 
-namespace models;
+namespace models\user;
 
-class AuthUserModel
+use models\Database;
+
+class UserModel
 {
     private $db;
 
@@ -19,11 +21,6 @@ class AuthUserModel
 
     public function createTable()
     {
-        $roleTableQuery = "CREATE TABLE IF NOT EXISTS `roles` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `role_name` VARCHAR(255) NOT NULL,
-    `role_description` TEXT
-    )";
         $userTableQuery = "CREATE TABLE IF NOT EXISTS `users` (
     `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `username` VARCHAR(255) NOT NULL,
@@ -37,9 +34,12 @@ class AuthUserModel
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`role`) REFERENCES `roles`(`id`)
     )";
+        $basicUser ="INSERT INTO `users`(`username`, `email`, `password`, `role`) VALUES ('test','test@mail.com', '$2y$10$3Af2IWDFzl.uc9nSyc3mi.7YOkhpmGYloW1UNzgebX9Pq.Lrw6d8C', '1')";
+        $admin ="INSERT INTO `users`(`username`, `email`, `password`, `role`) VALUES ('admin','admin@mail.com', '$2y$10$3Af2IWDFzl.uc9nSyc3mi.7YOkhpmGYloW1UNzgebX9Pq.Lrw6d8C', '2')";
         try {
-            $this->db->exec($roleTableQuery);
             $this->db->exec($userTableQuery);
+            $this->db->exec($basicUser);
+            $this->db->exec($admin);
             return true;
         } catch (\PDOException $exception) {
             return false;
@@ -47,13 +47,15 @@ class AuthUserModel
     }
 
 
-    public function registerUser($username, $email, $password)
+    public function getAllUsers()
     {
-        $created_at = date('Y-m-d H:i:s');
-        $query = "INSERT INTO users (username, email, password, created_at) VALUES (?,?,?,?)";
         try {
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([$username, $email, password_hash($password, PASSWORD_DEFAULT), $created_at]);
+            $stmt = $this->db->query("SELECT * FROM users");
+            $users = [];
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                $users[] = $row;
+            }
+            return $users;
         } catch (\PDOException $exception) {
             echo "<pre>";
             print_r($exception->getMessage());
@@ -62,31 +64,31 @@ class AuthUserModel
         }
     }
 
-    public function loginUser($email, $password)
+    public function createUser($data)
     {
+        $username = $data['username'];
+        $email = $data['email'];
+        $password = password_hash($data['password'], PASSWORD_DEFAULT);
+        $role = $data['role'];
+        $created_at = date('Y-m-d H:i:s');
+
+        $query = "INSERT INTO users (username, email, password, role, created_at) VALUE (?,?,?,?,?)";
         try {
-            $query = "SELECT FROM users WHERE email = ? LIMIT 1";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$email]);
-            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
-            if ($user and password_verify($password, $user['password'])) {
-                return $user;
-            } else {
-                return false;
-            }
+            $stmt->execute([$username, $email, $password, $role, $created_at]);
+            return true;
         } catch (\PDOException $exception) {
             return false;
         }
     }
 
-    public function findByEmail($email)
+    public function deleteUser($id)
     {
+        $query = "DELETE FROM users WHERE id = ?";
         try {
-            $query = "SELECT * FROM users WHERE email = ? LIMIT 1";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$email]);
-            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
-            return $user ? $user : false;
+            $stmt->execute([$id]);
+            return true;
         } catch (\PDOException $exception) {
             return false;
         }
@@ -112,11 +114,6 @@ class AuthUserModel
         $role = $data['role'];
         $isActive = isset($data['is_active']) ? 1 : 0;
         $isAdmin = !empty($data['admin']) && $data['admin'] !== 0 ? 1 : 0;
-
-        echo "<pre>";
-        print_r($isAdmin);
-        echo "</pre>";
-
         $query = "UPDATE users SET username=?, email=?, is_admin=?, role=?, is_active=? WHERE id=?";
         try {
             $stmt = $this->db->prepare($query);
@@ -129,4 +126,5 @@ class AuthUserModel
             return false;
         }
     }
+
 }

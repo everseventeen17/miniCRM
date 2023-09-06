@@ -21,6 +21,7 @@
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 mt-5">
                     <span class="fs-5 d-none d-sm-inline">Menu</span>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <?php if(isset($_SESSION['user_id']) and (in_array($_SESSION['user_role'], array( 2)))) : ?>
                     <li class="nav-item">
                         <a class="nav-link <?= is_page_active('/')?>" href="/">Home</a>
                     </li>
@@ -33,6 +34,7 @@
                     <li class="nav-item">
                         <a class="nav-link <?= is_page_active('/pages')?>" href="/pages">Pages</a>
                     </li>
+                    <?php endif; ?>
                     <hr>
                     <span class="fs-5 d-none d-sm-inline">Categories</span>
                     <li class="nav-item">
