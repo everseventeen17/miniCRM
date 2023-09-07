@@ -90,11 +90,6 @@ class TaskController
         $taskModel = new TaskModel();
         $url = $_SERVER['REQUEST_URI'];
         $url = explode('/', $url);
-
-        $log = date('Y-m-d H:i:s') . ' ' . print_r($url, true);
-        file_put_contents(__DIR__ . '/logAAAAAAAAA.txt', $log . PHP_EOL, FILE_APPEND);
-
-
         if ($taskModel->deleteTodoTask($url[4])) {
             echo 1;
             return;

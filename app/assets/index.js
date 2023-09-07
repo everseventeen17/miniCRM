@@ -181,6 +181,7 @@ $(document).ready(function () {
                         success: function (data) {
                             if (data) {
                                 $(that).closest("tr").remove();
+                                $(that).closest(".accordion-item").remove();
                                 that.setAttribute('disabled', false);
                             } else {
                                 console.log('Произошла ошибка при удалении');
@@ -205,7 +206,7 @@ $(document).ready(function () {
     let todoDeleteButton = new deleteButton('.js-deleteTodoCategory', 'todo/category', 'data-todo-id');
     todoDeleteButton.setEventListeners();
     //удаление ТО DО Task из базы данных
-    let todoTaskDeleteButton = new deleteButton('.js-deleteTodoTask', 'todo/task', 'data-todoTask-id');
+    let todoTaskDeleteButton = new deleteButton('.js-deleteTodoTask', 'todo/tasks', 'data-todoTask-id');
     todoTaskDeleteButton.setEventListeners();
 
     const createForm = document.querySelector('.form');
