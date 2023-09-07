@@ -8,14 +8,14 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="/app/views/assets/index.css">
+    <link rel="stylesheet" href="/app/assets/index.css">
 
     <title><?=$title?></title>
-    <link rel="icon" type="image/x-icon" href="/app/views/assets/images/favico.png">
+    <link rel="icon" type="image/x-icon" href="/app/assets/images/favico.png">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/fa8a90309e.js" crossorigin="anonymous"></script>
-    <script src="/app/views/assets/index.js"></script>
+    <script src="/app/assets/index.js"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -42,10 +42,10 @@
                     <hr>
                     <span class="fs-5 d-none d-sm-inline">Categories</span>
                     <li class="nav-item">
-                        <a class="nav-link <?= is_page_active('/todo/category')?>" href="/todo/category">Todo</a>
+                        <a class="nav-link <?= is_page_active('/todo/category')?>" href="/todo/category">Todo categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= is_page_active('/todo/tasks')?>" href="/todo/tasks">TodoList</a>
+                        <a class="nav-link <?= is_page_active('/todo/tasks')?>" href="/todo/tasks">Todo task list</a>
                     </li>
                     <?php endif; ?>
                 </ul>
@@ -67,9 +67,9 @@
                 </div>
                 <?php }else{?>
                     <div class="dropdown pb-4">
-                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a href="" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-regular fa-circle-user fa-xl" style="color: #ffffff;"></i>
-                            <span class="d-none d-sm-inline mx-1">USER</span>
+                            <span class="d-none d-sm-inline mx-1">Sign in</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                             <li><a class="dropdown-item" href="/auth/login">Login</a></li>

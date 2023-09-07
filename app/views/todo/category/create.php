@@ -11,12 +11,12 @@ $title = 'Create category';
         <a class="btn btn-success" href="/todo/category">All categories</a>
         <div class="form-group mt-1">
             <label>Category title</label>
-            <input  class="form-control" id="form_text_0" name="title" placeholder="Enter category title" required minlength="2" maxlength="30">
+            <input  class="form-control form-control-input" id="form_text_0" name="title" placeholder="Enter category title" required minlength="2" maxlength="30">
             <span class="span__error span__error_title">1</span>
         </div>
         <div class="form-group mt-1">
             <label>Category description</label>
-            <textarea  class="form-control" id="form_text_1" rows="10" name="description" required minlength="2" maxlength="100"></textarea>
+            <textarea  class="form-control form-control-input" id="form_text_1" rows="10" name="description" required minlength="2" maxlength="100"></textarea>
             <span class="span__error span__error_description">1</span>
         </div>
         <button type="submit" class="btn submit-btn btn-primary mt-3">Create category</button>

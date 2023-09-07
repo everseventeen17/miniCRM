@@ -9,17 +9,17 @@ $title = 'Update user';?>
         <a class="btn btn-success" href="/users">All users</a>
         <div class="form-group mt-1">
             <label for="exampleInputEmail1">Username</label>
-            <input class="form-control" id="form_text_0" name="username" required minlength="2" maxlength="30" placeholder="Enter username" value="<?= $user['username'] ?>">
+            <input class="form-control form-control-input" id="form_text_0" name="username" required minlength="2" maxlength="30" placeholder="Enter username" value="<?= $user['username'] ?>">
             <span class="span__error span__error_username">1</span>
         </div>
         <div class="form-group mt-1">
             <label for="exampleInputEmail1">Email address</label>
-            <input  class="form-control" id="form_text_1" name="email"  type="email" required minlength="2" maxlength="30" aria-describedby="emailHelp" placeholder="Enter email" value="<?= $user['email'] ?>">
+            <input  class="form-control form-control-input" id="form_text_1" name="email"  type="email" required minlength="2" maxlength="30" aria-describedby="emailHelp" placeholder="Enter email" value="<?= $user['email'] ?>">
             <span class="span__error span__error_email">1</span>
         </div>
         <div class="form-group mt-1">
             <label for="exampleFormControlSelect1">Role</label>
-            <select name="role" class="form-control" id="form_text_3">
+            <select name="role" class="form-control form-control-input" id="form_text_3">
                 <option value="1" <?=$user['role'] !== 0 ? 'selected' : '' ?>>User</option>
                 <option value="0" <?=$user['role'] === 1 ? 'selected' : '' ?>>Content Creator</option>
                 <option value="1" <?=$user['role'] === 2 ? 'selected' : '' ?>>Editor</option>

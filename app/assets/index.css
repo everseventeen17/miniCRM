@@ -1,4 +1,6 @@
-@import url('./css/popups.css');
+@import url('css/popups.css');
+@import url('css/tabs.css');
+@import url('css/tags.css');
 
 .input__error {
     border: 1px solid red;
@@ -40,13 +42,4 @@
 
 .accordion-item__text {
     width: 100%;
-}
-
-@media screen and (max-width: 600px) {
-    .accordion-button {
-        flex-direction: column;
-    }
-    .accordion-item__text{
-        padding: 0 0 10px 0;
-    }
 }

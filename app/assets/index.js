@@ -30,7 +30,7 @@ $(document).ready(function () {
     };
 
     const validationConfig = {
-        inputSelector: '.form-control',
+        inputSelector: '.form-control-input',
         submitButtonSelector: '.submit-btn',
         inactiveButtonClass: 'btn-disabled',
         inputErrorClass: 'input__error',
@@ -204,6 +204,9 @@ $(document).ready(function () {
     //удаление ТО DО категории из базы данных
     let todoDeleteButton = new deleteButton('.js-deleteTodoCategory', 'todo/category', 'data-todo-id');
     todoDeleteButton.setEventListeners();
+    //удаление ТО DО Task из базы данных
+    let todoTaskDeleteButton = new deleteButton('.js-deleteTodoTask', 'todo/task', 'data-todoTask-id');
+    todoTaskDeleteButton.setEventListeners();
 
     const createForm = document.querySelector('.form');
 

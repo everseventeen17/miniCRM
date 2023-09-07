@@ -11,12 +11,12 @@ $title = 'Create page';
         <a class="btn btn-success" href="/pages">All pages</a>
         <div class="form-group mt-1">
             <label>Page name</label>
-            <input  class="form-control" id="form_text_0" name="page_name" placeholder="Enter page name" required minlength="2" maxlength="30">
+            <input  class="form-control form-control-input" id="form_text_0" name="page_name" placeholder="Enter page name" required minlength="2" maxlength="30">
             <span class="span__error span__error_page_name">1</span>
         </div>
         <div class="form-group mt-1">
             <label>Page url</label>
-            <input  class="form-control" id="form_text_1" name="page_url" placeholder="Enter page url" required minlength="2" maxlength="30">
+            <input  class="form-control form-control-input" id="form_text_1" name="page_url" placeholder="Enter page url" required minlength="2" maxlength="30">
             <span class="span__error span__error_page_url">1</span>
         </div>
         <div class="form-group mt-1">

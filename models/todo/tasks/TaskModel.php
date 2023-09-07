@@ -49,12 +49,12 @@ class TaskModel
         }
     }
 
-    public function getAllTasks($user_id)
+    public function getAllTasks()
     {
         try {
-            $query = "SELECT * FROM todo_list WHERE user_id = ?";
+            $query = "SELECT * FROM todo_list";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$user_id]);
+            $stmt->execute();
             $todo_list = [];
             while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
                 $todo_list[] = $row;
@@ -83,21 +83,21 @@ class TaskModel
     public function createTask($data)
     {
         try {
-            $query = "INSERT INTO todo_list (user_id, title, description, category_id, status, priority, finish_date) VALUES (?,?,?,?,?,?,?)";
+            $query = "INSERT INTO todo_list (user_id, title, description, category_id, assigned_to, status, priority, finish_date) VALUES (?,?,?,?,?,?,?,?)";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$data['user_id'],$data['title'], $data['description'], $data['category_id'],$data['status'],$data['priority'],$data['finish_date']]);
+            $stmt->execute([$data['user_id'],$data['title'], $data['description'], $data['category_id'], $data['assigned_to'], $data['status'],$data['priority'],$data['finish_date']]);
         } catch (\PDOException $exception) {
             print_r($exception->getMessage());
             return false;
         }
     }
 
-    public function updateTodoCategory($title, $description, $usability, $id)
+    public function updateTodoTask($data)
     {
-        $query = "UPDATE todo_category SET title=?, description=?, usability=? WHERE id=?";
+        $query = "UPDATE todo_list SET user_id=?, title=?, description=?, category_id=?, status=?, priority=?, assigned_to=?, finish_date=? WHERE id=?";
         try {
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$title, $description, $usability, $id,]);
+            $stmt->execute([$data['user_id'], $data['title'], $data['description'], $data['category_id'], $data['status'],$data['priority'],$data['assigned_to'],$data['finish_date'], $data['id']]);
             return true;
         } catch (\PDOException $exception) {
             print_r($exception->getMessage());
@@ -105,10 +105,10 @@ class TaskModel
         }
     }
 
-    public function deleteTodoCategory($id)
+    public function deleteTodoTask($id)
     {
         try {
-            $query = "DELETE FROM todo_category WHERE id = ?";
+            $query = "DELETE FROM todo_list WHERE id = ?";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
             return true;
