@@ -2,8 +2,6 @@
 $title = 'Todo List'; ?>
 
 <?php ob_start(); ?>
-
-
     <h1 class="mb-4">Todo List</h1>
     <a href="/todo/tasks/create" class="btn btn-success mb-3">Create Task</a>
     <div id="tabs">
@@ -13,7 +11,6 @@ $title = 'Todo List'; ?>
             <li><a href="#tab-2">My tasks</a></li>
             <li><a href="#tab-3">Tasks that I set</a></li>
         </ul>
-
         <!-- Контент -->
         <div class="tabs-items">
             <div class="tabs-item" id="tab-1">
@@ -26,10 +23,10 @@ $title = 'Todo List'; ?>
                                     <button class="accordion-button collapsed <?= $task['priority'] == 'medium' ? 'task__button-priority-medium' : ''?><?= $task['priority'] == 'high' ? 'task__button-priority-high' : ''?>" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#task-collapse-<?php echo $task['id']; ?>" aria-expanded="false"
                                             aria-controls="task-collapse-<?php echo $task['id']; ?>">
-                            <span class="accordion-item__text"><i
-                                        class="fa-solid fa-square-up-right"></i> <strong><?php echo $task['title']; ?> </strong> from <?= $task['USER_BY_WHO']['username']?> to <?= $task['USER_TO']['username']?></span>
-                                        <span class="accordion-item__text"><i
-                                                    class="fa-solid fa-person-circle-question"></i> <?php echo $task['priority']; ?> </span>
+                                        <img class="task__status-img" alt="<?=$task['status']; ?>>" src="/app/assets/images/task_statuses/<?=$task['status'];?>.png">
+                            <span class="accordion-item__text"><i class="fa-solid fa-square-up-right"></i> <strong><?php echo $task['title']; ?> </strong> from <?= $task['USER_BY_WHO']['username']?> to <?= $task['USER_TO']['username']?></span>
+                                        <span class="accordion-item__text"><strong>Wasted time: </strong><?php echo convertMinutesToHumanFormat($task['wasted_time']); ?> </span>
+                                        <span class="accordion-item__text"><i class="fa-solid fa-person-circle-question"></i> <?php echo $task['priority']; ?> </span>
                                         <span class="accordion-item__text"><i class="fa-solid fa-hourglass-start"></i><span
                                                     class="due-date"><?php echo $task['finish_date']; ?></span></span>
                                     </button>
@@ -70,6 +67,7 @@ $title = 'Todo List'; ?>
                                     <button class="accordion-button collapsed <?= $task['priority'] == 'medium' ? 'task__button-priority-medium' : ''?><?= $task['priority'] == 'high' ? 'task__button-priority-high' : ''?>" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#task-collapse-<?php echo $task['id']; ?>" aria-expanded="false"
                                             aria-controls="task-collapse-<?php echo $task['id']; ?>">
+                                        <img class="task__status-img" alt="<?=$task['status']; ?>>" src="/app/assets/images/task_statuses/<?=$task['status'];?>.png">
                             <span class="accordion-item__text"><i
                                         class="fa-solid fa-square-up-right"></i> <strong><?php echo $task['title']; ?> </strong> from <?= $task['USER_BY_WHO']['username']?> to <?= $task['USER_TO']['username']?></span>
                                         <span class="accordion-item__text"><i
@@ -115,6 +113,7 @@ $title = 'Todo List'; ?>
                                         <button class="accordion-button collapsed <?= $task['priority'] == 'medium' ? 'task__button-priority-medium' : ''?><?= $task['priority'] == 'high' ? 'task__button-priority-high' : ''?>" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#task-collapse-<?php echo $task['id']; ?>" aria-expanded="false"
                                                 aria-controls="task-collapse-<?php echo $task['id']; ?>">
+                                            <img class="task__status-img" alt="<?=$task['status']; ?>>" src="/app/assets/images/task_statuses/<?=$task['status'];?>.png">
                             <span class="accordion-item__text"><i
                                         class="fa-solid fa-square-up-right"></i> <strong><?php echo $task['title']; ?> </strong> from <?= $task['USER_BY_WHO']['username']?> to <?= $task['USER_TO']['username']?></span>
                                             <span class="accordion-item__text"><i
@@ -155,31 +154,6 @@ $title = 'Todo List'; ?>
     </div>
 
 
-
-    <script>
-        function updateRemainingTime() {
-            const dueDateElements = document.querySelectorAll('.due-date');
-            const now = new Date();
-
-            dueDateElements.forEach((element) => {
-                const dueDate = new Date(element.textContent);
-                const timeDiff = dueDate - now;
-
-                if (timeDiff > 0) {
-                    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-
-                    element.textContent = `Days: ${days} Hours: ${hours} Minutes: ${minutes}`;
-                } else {
-                    element.textContent = 'Time is up';
-                }
-            });
-        }
-
-        updateRemainingTime();
-        setInterval(updateRemainingTime, 60000);
-    </script>
     <script>
         $(function() {
             var tab = $('#tabs .tabs-items > div');

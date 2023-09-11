@@ -4,4 +4,5 @@ const DB_HOST = 'localhost';
 const DB_USER = 'root';
 const DB_PASS = '';
 const DB_NAME = 'miniCRM';
-const START_ROLE = 1;
+const START_ROLE = '1';
+const ADMIN_ROLE = '2';

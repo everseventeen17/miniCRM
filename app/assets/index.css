@@ -43,3 +43,7 @@
 .accordion-item__text {
     width: 100%;
 }
+.task__status-img {
+    margin-right: 20px;
+    width: 25px;
+}

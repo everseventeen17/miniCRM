@@ -26,14 +26,16 @@ class TaskModel
     `title` VARCHAR(255) NOT NULL,
     `description` TEXT,
     `category_id` INT NOT NULL,
-    `status` ENUM('new', 'in_progress', 'completed', 'hold', 'cancelled'),
+    `status` ENUM('new', 'in_progress', 'completed', 'hold'),
+    `status_filter` ENUM('0', '1', '2', '3') DEFAULT '1',
     `priority` ENUM('low', 'medium', 'high', 'urgent'),
     `assigned_to` INT,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `finish_date` DATETIME,
-    `completed_at` DATETIME,
-    `reminder_at` DATETIME,
+    `wasted_time` VARCHAR(255) NULL,
+    `finish_date` DATETIME NULL,
+    `completed_at` DATETIME NULL,
+    `reminder_at` DATETIME NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES todo_category(id),
     FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL
@@ -66,7 +68,7 @@ class TaskModel
         }
     }
 
-    public function getTodoCategoryById($id)
+    public function getTodoTaskById($id)
     {
         try {
             $query = "SELECT * FROM todo_list WHERE id = ?";
@@ -94,10 +96,10 @@ class TaskModel
 
     public function updateTodoTask($data)
     {
-        $query = "UPDATE todo_list SET user_id=?, title=?, description=?, category_id=?, status=?, priority=?, assigned_to=?, finish_date=? WHERE id=?";
+        $query = "UPDATE todo_list SET user_id=?, title=?, description=?, category_id=?, status=?, status_filter=?, priority=?, assigned_to=?, finish_date=?,started_at=?,paused_at=?,wasted_time=? WHERE id=?";
         try {
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$data['user_id'], $data['title'], $data['description'], $data['category_id'], $data['status'],$data['priority'],$data['assigned_to'],$data['finish_date'], $data['id']]);
+            $stmt->execute([$data['user_id'], $data['title'], $data['description'], $data['category_id'], $data['status'],$data['status_filter'],$data['priority'],$data['assigned_to'],$data['finish_date'],$data['started_at'],$data['paused_at'],$data['wasted_time'], $data['id']]);
             return true;
         } catch (\PDOException $exception) {
             print_r($exception->getMessage());
