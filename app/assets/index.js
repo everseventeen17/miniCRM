@@ -1,8 +1,11 @@
 $(document).ready(function () {
-    function isset(value){
-       return typeof (value) != "undefined" && value !== null ? true : false;
+    function isset(value) {
+        return typeof (value) != "undefined" && value !== null ? true : false;
     }
+
     const dueDateElements = document.querySelectorAll('.due-date');
+    const plusDateElements = document.querySelectorAll('.plus-date');
+
     function updateRemainingTime() {
         const now = new Date();
         dueDateElements.forEach((element) => {
@@ -20,7 +23,32 @@ $(document).ready(function () {
             }
         });
     }
-    if(isset(dueDateElements)){
+
+    function updateWastedTime() {
+        plusDateElements.forEach((element) => {
+            if (element.getAttribute('data-status') == 'in_progress') {
+                const now = new Date();
+                let dueDate = new Date(element.getAttribute('data-started-at'));
+                const timeDiff = now - dueDate;
+                if (isset(element.getAttribute('data-time'))) {
+                    let timeWithWastedFromServer = timeDiff + ((parseInt(element.getAttribute('data-time'))) * 1000 * 60)
+                    const days = Math.floor(timeWithWastedFromServer / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeWithWastedFromServer % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeWithWastedFromServer % (1000 * 60 * 60)) / (1000 * 60));
+                    element.textContent = `${days}d:${hours}h:${minutes}m`;
+                } else {
+                    element.textContent = "You haven't taken on this task yet";
+                }
+            }
+        });
+    }
+
+
+    if (isset(plusDateElements)) {
+        updateWastedTime();
+        setInterval(updateWastedTime, 60000);
+    }
+    if (isset(dueDateElements)) {
         updateRemainingTime();
         setInterval(updateRemainingTime, 60000);
     }

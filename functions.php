@@ -32,13 +32,17 @@ function convertDateToMinutes($date)
 function convertMinutesToHumanFormat($date)
 {
     if($date <= 60){
-        return $date . ' Minutes';
+        return '00d:' .'00h:' . round(($date), 0) . 'm';
     }else{
-        $date = round(($date / 60), 1);
-        if($date >= 24) {
-            return round(($date / 24), 1) . ' Days';
+        $hours = round(($date / 60), 0);
+        $minutes = round($date - ($hours * 60), 0);
+        $result = '00d:'  . $hours . 'h:' . $minutes .'m';
+        if($hours >= 24) {
+            $newHours = round(($date / 60), 0) - 24;
+            $days = round(($hours / 24), 0);
+             return $days . 'd:' . $newHours . 'h:' . $minutes . 'm';
         }else{
-            return $date . ' Hours';
+            return $result;
         }
     }
 }
