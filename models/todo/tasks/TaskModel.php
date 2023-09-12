@@ -96,10 +96,10 @@ class TaskModel
 
     public function updateTodoTask($data)
     {
-        $query = "UPDATE todo_list SET user_id=?, title=?, description=?, category_id=?, status=?, status_filter=?, priority=?, assigned_to=?, finish_date=?,started_at=?,paused_at=?,wasted_time=? WHERE id=?";
+        $query = "UPDATE todo_list SET user_id=?, title=?, description=?, category_id=?, status=?, status_filter=?, priority=?, assigned_to=?, finish_date=?,started_at=?,paused_at=?,wasted_time=?,reminder_at=? WHERE id=?";
         try {
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$data['user_id'], $data['title'], $data['description'], $data['category_id'], $data['status'],$data['status_filter'],$data['priority'],$data['assigned_to'],$data['finish_date'],$data['started_at'],$data['paused_at'],$data['wasted_time'], $data['id']]);
+            $stmt->execute([$data['user_id'], $data['title'], $data['description'], $data['category_id'], $data['status'],$data['status_filter'],$data['priority'],$data['assigned_to'],$data['finish_date'],$data['started_at'],$data['paused_at'],$data['wasted_time'],$data['reminder_at'], $data['id']]);
             return true;
         } catch (\PDOException $exception) {
             print_r($exception->getMessage());

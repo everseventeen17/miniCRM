@@ -33,16 +33,17 @@ function convertMinutesToHumanFormat($date)
 {
     if($date <= 60){
         return '00d:' .'00h:' . round(($date), 0) . 'm';
-    }else{
+    }
+    if($date >= 60 and $date < 1440){
         $hours = round(($date / 60), 0);
         $minutes = round($date - ($hours * 60), 0);
-        $result = '00d:'  . $hours . 'h:' . $minutes .'m';
-        if($hours >= 24) {
-            $newHours = round(($date / 60), 0) - 24;
-            $days = round(($hours / 24), 0);
-             return $days . 'd:' . $newHours . 'h:' . $minutes . 'm';
-        }else{
-            return $result;
-        }
+        return '00d:'  . $hours . 'h:' . $minutes .'m';
+    }
+    if($date >= 1440) {
+        $hours = round(($date / 60), 0);
+        $minutes = round(($date - (($date / 60) * 60)), 0);
+        $days = round(($hours / 24), 0);
+        $newHours = $hours - (24*$days);
+        return $days . 'd:' . $newHours . 'h:' . $minutes . 'm';
     }
 }

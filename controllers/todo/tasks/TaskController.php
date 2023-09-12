@@ -13,6 +13,7 @@ class TaskController
 {
     private $check;
     private $userId;
+    private $tagsModel;
 
     public function __construct()
     {
@@ -20,6 +21,7 @@ class TaskController
         $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
         $this->check = new Check($userRole);
         $this->userId = $userId;
+        $this->tagsModel = new TagsModel();
     }
 
     public function index()
@@ -111,8 +113,7 @@ class TaskController
         $task = $taskModel->getTodoTaskById($url[4]);
         $todoCategoryModel = new CategoryModel();
         $categories = $todoCategoryModel->getAllCategories();
-        $tagsModel = new TagsModel();
-        $tags = $tagsModel->getTagsByTaskId($task['id']);
+        $tags = $this->tagsModel->getTagsByTaskId($task['id']);
         $userModel = new UserModel();
         $users = $userModel->getAllUsers();
         if (!$task) {
@@ -134,6 +135,7 @@ class TaskController
             $data['category_id'] = trim($_POST['category_id']);
             $data['user_id'] = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
             $data['status'] = trim($_POST['status']);
+            $data['reminder_at'] = trim($_POST['reminder_at']);
             switch ($data['status']) {
                 case 'new':
                     $data['status_filter'] = 2;
@@ -164,35 +166,34 @@ class TaskController
             $data['wasted_time'] = $nowWastedTime;
             if (isset($wastedTime)) {
                 $data['wasted_time'] = $wastedTime + $nowWastedTime;
-            }else{
+            } else {
                 $data['wasted_time'] = $nowWastedTime;
             }
             $data['priority'] = trim($_POST['priority']);
             $data['assigned_to'] = trim($_POST['assigned_to']);
             $data['id'] = trim($_POST['id']);
-//            $reminder_at_option = $data['reminder_at'];
-//            $finish_date = new \DateTime($data['finish_date']);
-//
-//            switch ($reminder_at_option) {
-//                case '30_minutes':
-//                    $interval = new \DateInterval('PT30M');
-//                    break;
-//                case '1_hour':
-//                    $interval = new \DateInterval('PT1H');
-//                    break;
-//                case '2_hours':
-//                    $interval = new \DateInterval('PT2H');
-//                    break;
-//                case '12_hours':
-//                    $interval = new \DateInterval('PT12H');
-//                    break;
-//                case '24_hours':
-//                    $interval = new \DateInterval('P1D');
-//                    break;
-//                case '7_days':
-//                    $interval = new \DateInterval('P7D');
-//                    break;
-//            }
+            $reminder_at_option = $data['reminder_at'];
+            $finish_date = new \DateTime($data['finish_date']);
+
+            switch ($reminder_at_option) {
+                case '30_minutes':
+                    $interval = new \DateInterval('PT30M');
+                    break;
+                case '1_hour':
+                    $interval = new \DateInterval('PT1H');
+                    break;
+                case '12_hours':
+                    $interval = new \DateInterval('PT12H');
+                    break;
+                case '24_hours':
+                    $interval = new \DateInterval('P1D');
+                    break;
+                case '7_days':
+                    $interval = new \DateInterval('P7D');
+                    break;
+            }
+            $reminder_at = $finish_date->sub($interval);
+            $data['reminder_at'] = $reminder_at->format('Y-m-d\TH:i');
 
             $errors = [0 => [], 1 => [], 2 => [], 3 => [], 4 => [], 5 => [], 6 => []];
 //            if (empty($title)) {
@@ -211,6 +212,25 @@ class TaskController
                 print_r(json_encode('ok'));
                 $todoTaskModel = new TaskModel();
                 $task = $todoTaskModel->updateTodoTask($data);
+            }
+
+            //обработка теэгов
+            $tags = explode(',', $_POST['tags']);
+            $tags = array_map('trim', $tags);
+            $oldTags = $this->tagsModel->getTagsByTaskId($data['id']);
+            $this->tagsModel->removeAllTaskTags($data['id']);
+            foreach ($tags as $tag_name) {
+                $tag = $this->tagsModel->getTagByNameAndUserId($tag_name, $this->userId);
+                if (!$tag) {
+                    $tagId = $this->tagsModel->addTag($tag_name, $this->userId);
+                } else {
+                    $tagId = $tag['id'];
+                }
+                $this->tagsModel->addTaskAndTag($data['id'], $tagId);
+            }
+            // Удаление неиспользуемых тэгов
+            foreach ($oldTags as $oldTag) {
+                $this->tagsModel->removeUnusedTag($oldTag['id']);
             }
         }
     }
