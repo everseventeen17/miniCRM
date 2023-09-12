@@ -52,6 +52,7 @@ class PageModel
 
         $todoCategoryPage = "INSERT INTO `pages`(`page_name`, `page_url`, `role`) VALUES ('TodoCategory','todo/category','1,2')";
         $todoTasksPage = "INSERT INTO `pages`(`page_name`, `page_url`, `role`) VALUES ('TodoTasks','todo/tasks','1,2')";
+        $userProfilePage = "INSERT INTO `pages`(`page_name`, `page_url`, `role`) VALUES ('ProfilePage','users/profile','1,2')";
         try {
             $this->db->exec($pagesTableQuery);
 //users
@@ -61,6 +62,7 @@ class PageModel
             $this->db->exec($usersStorePage);
             $this->db->exec($usersDeletePage);
             $this->db->exec($usersEditPage);
+            $this->db->exec($userProfilePage);
 //roles
             $this->db->exec($rolesPage);
             $this->db->exec($rolesCreatePage);

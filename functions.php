@@ -35,15 +35,22 @@ function convertMinutesToHumanFormat($date)
         return '00d:' .'00h:' . round(($date), 0) . 'm';
     }
     if($date >= 60 and $date < 1440){
-        $hours = round(($date / 60), 0);
+        $hours = floor(($date / 60));
         $minutes = round($date - ($hours * 60), 0);
         return '00d:'  . $hours . 'h:' . $minutes .'m';
     }
     if($date >= 1440) {
-        $hours = round(($date / 60), 0);
-        $minutes = round(($date - (($date / 60) * 60)), 0);
-        $days = round(($hours / 24), 0);
+        $hours = floor(($date / 60));
+        $days = floor(($hours / 24));
         $newHours = $hours - (24*$days);
+        $minutes = round(($date - (($newHours * 60) + ($days*24*60))), 0);
         return $days . 'd:' . $newHours . 'h:' . $minutes . 'm';
     }
 }
+
+// генерация одноразового OTP пароля для привязки телеграм аккаунта
+function generateOTP(){
+    $otp = rand(1000000, 9999999);
+    return $otp;
+}
+

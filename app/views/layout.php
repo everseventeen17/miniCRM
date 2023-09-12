@@ -58,7 +58,7 @@
                         <span class="d-none d-sm-inline mx-1"><?=$_COOKIE['user_name']?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="/users/profile">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

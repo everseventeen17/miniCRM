@@ -30,15 +30,18 @@ class TaskController
         $todoTaskModel = new TaskModel();
         $categoryModel = new CategoryModel();
         $userModel = new UserModel();
+        $tagsModel = new TagsModel();
         $tasks = $todoTaskModel->getAllTasks();
         usort($tasks, function ($a, $b) {
             return ($a['status_filter'] - $b['status_filter']);
         });
         foreach ($tasks as $key => $value) {
             $category = $categoryModel->getTodoCategoryById($tasks[$key]['category_id']);
+            $tags = $tagsModel->getTagsByTaskId($tasks[$key]['id']);
             $userWhoSet = $userModel->getUserById($tasks[$key]['user_id']);
             $userWhomDelivered = $userModel->getUserById($tasks[$key]['assigned_to']);
             $tasks[$key]['USER_BY_WHO'] = $userWhoSet;
+            $tasks[$key]['TAGS'] = $tags;
             $tasks[$key]['USER_TO'] = $userWhomDelivered;
             $tasks[$key]['CATEGORY'] = $category;
         }
@@ -163,7 +166,7 @@ class TaskController
                     break;
             }
             $nowWastedTime = convertDateToMinutes(Carbon::parse($data['started_at'])->diff($data['paused_at'])->format('%Y-%m-%d %H:%i:%s'));
-            $data['wasted_time'] = $nowWastedTime;
+            $data['wasted_time'] = floor($nowWastedTime);
             if (isset($wastedTime)) {
                 $data['wasted_time'] = $wastedTime + $nowWastedTime;
             } else {
@@ -196,15 +199,6 @@ class TaskController
             $data['reminder_at'] = $reminder_at->format('Y-m-d\TH:i');
 
             $errors = [0 => [], 1 => [], 2 => [], 3 => [], 4 => [], 5 => [], 6 => []];
-//            if (empty($title)) {
-//                $errors[0]['title'] = 'Введите название';
-//            }
-//            if (empty($description)) {
-//                $errors[1]['description'] = 'Введите описание!';
-//            }
-//            if (empty($id)) {
-//                $errors[1]['title'] = 'Выберете todoList task';
-//            }
             if (!empty($errors[0]) or !empty($errors[1]) or !empty($errors[2]) or !empty($errors[3]) or !empty($errors[4]) or !empty($errors[5]) or !empty($errors[6])) {
                 print_r(json_encode($errors));
                 return;
@@ -215,23 +209,27 @@ class TaskController
             }
 
             //обработка теэгов
-            $tags = explode(',', $_POST['tags']);
-            $tags = array_map('trim', $tags);
-            $oldTags = $this->tagsModel->getTagsByTaskId($data['id']);
-            $this->tagsModel->removeAllTaskTags($data['id']);
-            foreach ($tags as $tag_name) {
-                $tag = $this->tagsModel->getTagByNameAndUserId($tag_name, $this->userId);
-                if (!$tag) {
-                    $tagId = $this->tagsModel->addTag($tag_name, $this->userId);
-                } else {
-                    $tagId = $tag['id'];
+
+                $tags = explode(',', $_POST['tags']);
+                $tags = array_map('trim', $tags);
+                $oldTags = $this->tagsModel->getTagsByTaskId($data['id']);
+                $this->tagsModel->removeAllTaskTags($data['id']);
+                foreach ($tags as $tag_name) {
+                    if(strlen($tag_name) !==0){
+                    $tag = $this->tagsModel->getTagByNameAndUserId($tag_name, $this->userId);
+                        if (!$tag) {
+                            $tagId = $this->tagsModel->addTag($tag_name, $this->userId);
+                        } else {
+                            $tagId = $tag['id'];
+                        }
+                        $this->tagsModel->addTaskAndTag($data['id'], $tagId);
+                    }
                 }
-                $this->tagsModel->addTaskAndTag($data['id'], $tagId);
-            }
-            // Удаление неиспользуемых тэгов
-            foreach ($oldTags as $oldTag) {
-                $this->tagsModel->removeUnusedTag($oldTag['id']);
-            }
+                // Удаление неиспользуемых тэгов
+                foreach ($oldTags as $oldTag) {
+                    $this->tagsModel->removeUnusedTag($oldTag['id']);
+                }
+
         }
     }
 }

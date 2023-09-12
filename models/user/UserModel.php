@@ -14,6 +14,7 @@ class UserModel
         try {
             $this->db->query("SELECT 1 FROM `roles` LIMIT 1");
             $this->db->query("SELECT 1 FROM `users` LIMIT 1");
+            $this->db->query("SELECT 1 FROM `otp_codes` LIMIT 1");
         } catch (\PDOException $exception) {
             $this->createTable();
         }
@@ -36,8 +37,17 @@ class UserModel
     )";
         $basicUser ="INSERT INTO `users`(`username`, `email`, `password`, `role`) VALUES ('test','test@mail.com', '$2y$10$3Af2IWDFzl.uc9nSyc3mi.7YOkhpmGYloW1UNzgebX9Pq.Lrw6d8C', '1')";
         $admin ="INSERT INTO `users`(`username`, `email`, `password`, `role`) VALUES ('admin','admin@mail.com', '$2y$10$3Af2IWDFzl.uc9nSyc3mi.7YOkhpmGYloW1UNzgebX9Pq.Lrw6d8C', '2')";
+
+        $OTPTableQuery = "CREATE TABLE IF NOT EXISTS `otp_codes` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT(11) NOT NULL,
+    `otp_code` INT(7) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+    )";
         try {
             $this->db->exec($userTableQuery);
+            $this->db->exec($OTPTableQuery);
             $this->db->exec($basicUser);
             $this->db->exec($admin);
             return true;
@@ -64,6 +74,33 @@ class UserModel
         }
     }
 
+    public function writeOtpCodeByUserId($data)
+    {
+        $user_id = $data['user_id'];
+        $otp = $data['otp'];
+        $created_at = date('Y-m-d H:i:s');
+        $query = "INSERT INTO otp_codes (user_id, otp_code, created_at) VALUE (?,?,?)";
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$user_id, $otp, $created_at]);
+            return true;
+        } catch (\PDOException $exception) {
+            return false;
+        }
+    }
+
+    public function getLastOtpCodeByUserId($id)
+    {
+        $query = "SELECT * FROM otp_codes WHERE user_id = ? ORDER BY created_at DESC LIMIT 1";
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$id]);
+            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $exception) {
+            return false;
+        }
+    }
     public function createUser($data)
     {
         $username = $data['username'];
