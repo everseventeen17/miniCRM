@@ -46,7 +46,7 @@ class UserController
              $otp = $otpLastStr['otp_code'];
          }
         }else{
-            $visible = false;
+            $visible = true;
             $otp = generateOTP();
         }
         include './app/views/users/profile.php';

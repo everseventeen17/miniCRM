@@ -50,7 +50,8 @@ ob_start();
         <h3 class="mb-4">OTP password generate</h3>
         <h5>Your's OTP code: <?= $otp?></h5>
         <p>Go to teelgramm and find us bot: <a target="_blank" href="https://t.me/mini_crm_bot" >@mini_crm_bot</a>. Push that command <strong>/start</strong> and follow instructions</p>
-        <?php if($visible): ?>
+        <?php
+        if($visible): ?>
             <p>That OTP code will be recorded in the database and will be available for authorization via telegram within 1 hour</p>
 
             <form action="/users/otpstore" method="POST">

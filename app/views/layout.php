@@ -95,14 +95,11 @@
 </div>
 
 
-
-
-
 <div class="container-fluid">
     <div class="row flex-nowrap">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark side__menu">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 mt-5">
-                    <span class="fs-5 d-none d-sm-inline">Menu</span>
+                    <span class="fs-5 d-none d-sm-inline pb-4">Menu</span>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <?php if(isset($_SESSION['user_id']) and (in_array($_SESSION['user_role'], array(1,2)))) : ?>
                     <?php if(isset($_SESSION['user_id']) and (in_array($_SESSION['user_role'], array(2)))) : ?>
@@ -131,7 +128,7 @@
                 </ul>
                 <?php
                 if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){?>
-                <div class="dropdown pb-4">
+                <div class="dropdown pb-4 pt-4">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-regular fa-circle-user fa-xl" style="color: #ffffff;"></i>
                         <span class="d-none d-sm-inline mx-1"><?=$_COOKIE['user_name']?></span>
@@ -145,7 +142,7 @@
                     </ul>
                 </div>
                 <?php }else{?>
-                    <div class="dropdown pb-4">
+                    <div class="dropdown pb-4 pt-4">
                         <a href="" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-regular fa-circle-user fa-xl" style="color: #ffffff;"></i>
                             <span class="d-none d-sm-inline mx-1">Sign in</span>
@@ -163,6 +160,16 @@
         </div>
     </div>
 </div>
+</body>
+
+<footer class="bg-dark text-center text-white">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: #212529;">
+        © 2020 Copyright:
+        <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
 
 
 
