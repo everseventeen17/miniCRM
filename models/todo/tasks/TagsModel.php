@@ -24,9 +24,9 @@ class TagsModel
     `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT,
     `name` VARCHAR(255) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id));
-
-    CREATE TABLE IF NOT EXISTS `task_tags` (
+    FOREIGN KEY (user_id) REFERENCES users(id)
+    )";
+        $task_tags ="CREATE TABLE IF NOT EXISTS `task_tags` (
     `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `task_id` INT(11) NOT NULL,
     `tag_id` INT(11) NOT NULL,
@@ -35,6 +35,7 @@ class TagsModel
         )";
         try {
             $this->db->exec($tags);
+            $this->db->exec($task_tags);
             return true;
         } catch (\PDOException $exception) {
             echo "<pre>";

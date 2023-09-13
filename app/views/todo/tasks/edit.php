@@ -92,9 +92,9 @@ $title = 'Todo task update';
                 <?php if(isAdmin()) : ?>
                 <label for="exampleFormControlSelect1">Priority</label>
                 <select name="priority" class="form-control" id="form_text_6">
-                    <option value="low" <?= $task['priority'] !== 'low' ? 'low' : '' ?>>Low</option>
-                    <option value="medium" <?= $task['priority'] === 'medium' ? 'medium' : '' ?>>Medium</option>
-                    <option value="high" <?= $task['priority'] === 'high' ? 'high' : '' ?>>High</option>
+                    <option value="low" <?= $task['priority'] === 'low' ? 'selected' : '' ?>>Low</option>
+                    <option value="medium" <?= $task['priority'] === 'medium' ? 'selected' : '' ?>>Medium</option>
+                    <option value="high" <?= $task['priority'] === 'high' ? 'selected' : '' ?>>High</option>
                 </select>
                 <?php else: ?>
                     <input class="form-control form-control-input" type="hidden" name="priority" value="<?= $task['priority'] ?>">

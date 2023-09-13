@@ -197,7 +197,9 @@ class TaskController
             }
             $reminder_at = $finish_date->sub($interval);
             $data['reminder_at'] = $reminder_at->format('Y-m-d\TH:i');
-
+            if ($data['status'] == $task['status']) {
+                $data['wasted_time'] = $task['wasted_time'];
+            }
             $errors = [0 => [], 1 => [], 2 => [], 3 => [], 4 => [], 5 => [], 6 => []];
             if (!empty($errors[0]) or !empty($errors[1]) or !empty($errors[2]) or !empty($errors[3]) or !empty($errors[4]) or !empty($errors[5]) or !empty($errors[6])) {
                 print_r(json_encode($errors));
@@ -210,25 +212,25 @@ class TaskController
 
             //обработка теэгов
 
-                $tags = explode(',', $_POST['tags']);
-                $tags = array_map('trim', $tags);
-                $oldTags = $this->tagsModel->getTagsByTaskId($data['id']);
-                $this->tagsModel->removeAllTaskTags($data['id']);
-                foreach ($tags as $tag_name) {
-                    if(strlen($tag_name) !==0){
+            $tags = explode(',', $_POST['tags']);
+            $tags = array_map('trim', $tags);
+            $oldTags = $this->tagsModel->getTagsByTaskId($data['id']);
+            $this->tagsModel->removeAllTaskTags($data['id']);
+            foreach ($tags as $tag_name) {
+                if (strlen($tag_name) !== 0) {
                     $tag = $this->tagsModel->getTagByNameAndUserId($tag_name, $this->userId);
-                        if (!$tag) {
-                            $tagId = $this->tagsModel->addTag($tag_name, $this->userId);
-                        } else {
-                            $tagId = $tag['id'];
-                        }
-                        $this->tagsModel->addTaskAndTag($data['id'], $tagId);
+                    if (!$tag) {
+                        $tagId = $this->tagsModel->addTag($tag_name, $this->userId);
+                    } else {
+                        $tagId = $tag['id'];
                     }
+                    $this->tagsModel->addTaskAndTag($data['id'], $tagId);
                 }
-                // Удаление неиспользуемых тэгов
-                foreach ($oldTags as $oldTag) {
-                    $this->tagsModel->removeUnusedTag($oldTag['id']);
-                }
+            }
+            // Удаление неиспользуемых тэгов
+            foreach ($oldTags as $oldTag) {
+                $this->tagsModel->removeUnusedTag($oldTag['id']);
+            }
 
         }
     }

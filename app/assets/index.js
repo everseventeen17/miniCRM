@@ -5,19 +5,17 @@ $(document).ready(function () {
 
     const dueDateElements = document.querySelectorAll('.due-date');
     const plusDateElements = document.querySelectorAll('.plus-date');
-
     function updateRemainingTime() {
         const now = new Date();
-        dueDateElements.forEach((element) => {
-            const dueDate = new Date(element.textContent);
-            const timeDiff = dueDate - now;
 
+        dueDateElements.forEach((element) => {
+            const dueDate = new Date(element.getAttribute('data-finish_date'));
+            const timeDiff = dueDate - now;
             if (timeDiff > 0) {
                 const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-
-                element.textContent = `Remain: ${days}d:${hours}h:${minutes}m`;
+                element.textContent = ` Days: ${days} Hours: ${hours} Minutes: ${minutes} remain`;
             } else {
                 element.textContent = 'Time is up';
             }

@@ -33,6 +33,8 @@ class TaskModel
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `wasted_time` VARCHAR(255) NULL,
+    `started_at` DATETIME NULL,
+    `paused_at` DATETIME NULL,
     `finish_date` DATETIME NULL,
     `completed_at` DATETIME NULL,
     `reminder_at` DATETIME NULL,
@@ -87,7 +89,7 @@ class TaskModel
         try {
             $query = "INSERT INTO todo_list (user_id, title, description, category_id, assigned_to, status, priority, finish_date) VALUES (?,?,?,?,?,?,?,?)";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$data['user_id'],$data['title'], $data['description'], $data['category_id'], $data['assigned_to'], $data['status'],$data['priority'],$data['finish_date']]);
+            $stmt->execute([$data['user_id'], $data['title'], $data['description'], $data['category_id'], $data['assigned_to'], $data['status'], $data['priority'], $data['finish_date']]);
         } catch (\PDOException $exception) {
             print_r($exception->getMessage());
             return false;
@@ -99,7 +101,7 @@ class TaskModel
         $query = "UPDATE todo_list SET user_id=?, title=?, description=?, category_id=?, status=?, status_filter=?, priority=?, assigned_to=?, finish_date=?,started_at=?,paused_at=?,wasted_time=?,reminder_at=? WHERE id=?";
         try {
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$data['user_id'], $data['title'], $data['description'], $data['category_id'], $data['status'],$data['status_filter'],$data['priority'],$data['assigned_to'],$data['finish_date'],$data['started_at'],$data['paused_at'],$data['wasted_time'],$data['reminder_at'], $data['id']]);
+            $stmt->execute([$data['user_id'], $data['title'], $data['description'], $data['category_id'], $data['status'], $data['status_filter'], $data['priority'], $data['assigned_to'], $data['finish_date'], $data['started_at'], $data['paused_at'], $data['wasted_time'], $data['reminder_at'], $data['id']]);
             return true;
         } catch (\PDOException $exception) {
             print_r($exception->getMessage());
