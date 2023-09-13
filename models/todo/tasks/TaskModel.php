@@ -84,6 +84,23 @@ class TaskModel
         }
     }
 
+    public function getTodoTaskByUserId($userId)
+    {
+        try {
+            $query = "SELECT * FROM todo_list WHERE finish_date > NOW() AND status != 'completed' AND  user_id = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$userId]);
+            $todo_list = [];
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                $todo_list[] = $row;
+            }
+            return $todo_list;
+        } catch (\PDOException $exception) {
+            print_r($exception->getMessage());
+            return false;
+        }
+    }
+
     public function createTask($data)
     {
         try {

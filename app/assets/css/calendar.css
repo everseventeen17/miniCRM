@@ -1,0 +1,10 @@
+.fc .fc-toolbar.fc-header-toolbar {
+    flex-wrap: wrap !important;
+}
+
+
+@media screen and (max-width: 500px) {
+    .fc-toolbar-title {
+        font-size: 1em !important;
+    }
+}
