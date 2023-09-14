@@ -30,8 +30,10 @@ class CategoryModel
     `user` INT NOT NULL,
     FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE
     )";
+        $startCategory ="INSERT INTO todo_category (title, description, user) VALUES ('startCategory','It is just start category','2')";
         try {
             $this->db->exec($todoCategoryTableQuery);
+            $this->db->exec($startCategory);
             return true;
         } catch (\PDOException $exception) {
             return false;

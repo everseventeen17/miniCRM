@@ -9,7 +9,7 @@ ob_start();
     <div class="container mt-5">
         <h1 class="mb-4">User profile</h1>
         <div class="card">
-            <div class="card-body">
+            <div class="card-body table-responsive" >
                 <table class="table table-hover table-responsive">
                     <tbody>
                     <tr>

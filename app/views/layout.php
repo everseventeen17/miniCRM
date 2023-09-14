@@ -65,11 +65,12 @@
 </nav>
 <div class="hamburger_wrapper" id="popup">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 menu" id="menu">
+            <li class="nav-item">
+                <a class="nav-link <?= is_page_active('/')?>" href="/">Home</a>
+            </li>
             <?php if(isset($_SESSION['user_id']) and (in_array($_SESSION['user_role'], array(1,2)))) : ?>
                 <?php if(isset($_SESSION['user_id']) and (in_array($_SESSION['user_role'], array(2)))) : ?>
-                    <li class="nav-item">
-                        <a class="nav-link <?= is_page_active('/')?>" href="/">Home</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link <?= is_page_active('/users')?>" href="/users">Users</a>
                     </li>
@@ -80,6 +81,7 @@
                         <a class="nav-link <?= is_page_active('/pages')?>" href="/pages">Pages</a>
                     </li>
                 <?php endif; ?>
+
                 <hr>
                 <span class="fs-5 d-none d-sm-inline">Categories</span>
                 <li class="nav-item">
@@ -116,6 +118,9 @@
                         <a class="nav-link <?= is_page_active('/pages')?>" href="/pages">Pages</a>
                     </li>
                     <?php endif; ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= is_page_active('/')?>" href="/">Home</a>
+                        </li>
                     <hr>
                     <span class="fs-5 d-none d-sm-inline">Categories</span>
                     <li class="nav-item">
@@ -155,7 +160,7 @@
                 <?php } ?>
             </div>
         </div>
-        <div class="col py-3 px-5 mt-5">
+        <div class="col py-3 px-5 mt-5 pb-5">
             <?php echo $content; ?>
         </div>
     </div>
@@ -177,5 +182,5 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
-</body>
+
 </html>

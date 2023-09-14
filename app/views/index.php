@@ -14,6 +14,7 @@ $title = 'Home Page'; ?>
 
     <script>
         let tasks = <?= $tasksJson;?>;
+        console.log(tasks)
         const event = tasks.map((task) => {
             return {
                 title: task.title,

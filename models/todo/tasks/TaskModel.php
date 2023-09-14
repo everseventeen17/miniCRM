@@ -87,7 +87,7 @@ class TaskModel
     public function getTodoTaskByUserId($userId)
     {
         try {
-            $query = "SELECT * FROM todo_list WHERE finish_date > NOW() AND status != 'completed' AND  user_id = ?";
+            $query = "SELECT * FROM todo_list WHERE finish_date > NOW() AND status != 'completed' AND  assigned_to = ?";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$userId]);
             $todo_list = [];

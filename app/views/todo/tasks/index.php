@@ -92,6 +92,15 @@ $title = 'Todo List'; ?>
                                         <img class="task__status-img" alt="<?=$task['status']; ?>>" src="/app/assets/images/task_statuses/<?=$task['status'];?>.png">
                             <span class="accordion-item__text"><i
                                         class="fa-solid fa-square-up-right"></i> <strong><?php echo $task['title']; ?> </strong> from <?= $task['USER_BY_WHO']['username']?> to <?= $task['USER_TO']['username']?></span>
+                                        <span class="accordion-item__text"><strong>Wasted time: </strong>
+                                            <span class="plus-date"
+                                                  data-time="<?= isset($task['wasted_time']) ? $task['wasted_time'] : null ;?>"
+                                                  data-started-at="<?= isset($task['started_at']) ? $task['started_at'] : null ;?>"
+                                                  data-id="<?= isset($task['id']) ? $task['id'] : null ;?>"
+                                                  data-status="<?= isset($task['status']) ? $task['status'] : null ;?>"><?php echo convertMinutesToHumanFormat($task['wasted_time']); ?>
+                                            </span>
+                                        </span>
+
                                         <span class="accordion-item__text"><i
                                                     class="fa-solid fa-person-circle-question"></i> <?php echo $task['priority']; ?> </span>
                                         <span class="accordion-item__text"><i class="fa-solid fa-hourglass-start"></i><span
@@ -150,6 +159,14 @@ $title = 'Todo List'; ?>
                                             <img class="task__status-img" alt="<?=$task['status']; ?>>" src="/app/assets/images/task_statuses/<?=$task['status'];?>.png">
                             <span class="accordion-item__text"><i
                                         class="fa-solid fa-square-up-right"></i> <strong><?php echo $task['title']; ?> </strong> from <?= $task['USER_BY_WHO']['username']?> to <?= $task['USER_TO']['username']?></span>
+                                            <span class="accordion-item__text"><strong>Wasted time: </strong>
+                                            <span class="plus-date"
+                                                  data-time="<?= isset($task['wasted_time']) ? $task['wasted_time'] : null ;?>"
+                                                  data-started-at="<?= isset($task['started_at']) ? $task['started_at'] : null ;?>"
+                                                  data-id="<?= isset($task['id']) ? $task['id'] : null ;?>"
+                                                  data-status="<?= isset($task['status']) ? $task['status'] : null ;?>"><?php echo convertMinutesToHumanFormat($task['wasted_time']); ?>
+                                            </span>
+                                        </span>
                                             <span class="accordion-item__text"><i
                                                         class="fa-solid fa-person-circle-question"></i> <?php echo $task['priority']; ?> </span>
                                             <span class="accordion-item__text"><i class="fa-solid fa-hourglass-start"></i><span
@@ -211,6 +228,14 @@ $title = 'Todo List'; ?>
                                             <img class="task__status-img" alt="<?=$task['status']; ?>>" src="/app/assets/images/task_statuses/<?=$task['status'];?>.png">
                                             <span class="accordion-item__text"><i
                                                         class="fa-solid fa-square-up-right"></i> <strong><?php echo $task['title']; ?> </strong> from <?= $task['USER_BY_WHO']['username']?> to <?= $task['USER_TO']['username']?></span>
+                                            <span class="accordion-item__text"><strong>Wasted time: </strong>
+                                            <span class="plus-date"
+                                                  data-time="<?= isset($task['wasted_time']) ? $task['wasted_time'] : null ;?>"
+                                                  data-started-at="<?= isset($task['started_at']) ? $task['started_at'] : null ;?>"
+                                                  data-id="<?= isset($task['id']) ? $task['id'] : null ;?>"
+                                                  data-status="<?= isset($task['status']) ? $task['status'] : null ;?>"><?php echo convertMinutesToHumanFormat($task['wasted_time']); ?>
+                                            </span>
+                                        </span>
                                             <span class="accordion-item__text"><i
                                                         class="fa-solid fa-person-circle-question"></i> <?php echo $task['priority']; ?> </span>
                                             <span class="accordion-item__text"><i class="fa-solid fa-hourglass-start"></i><span
